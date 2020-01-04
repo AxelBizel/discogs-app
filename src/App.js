@@ -6,7 +6,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: {}
+      data: null
     };
     this.getReleases = this.getReleases.bind(this);
   }
@@ -16,21 +16,20 @@ class App extends Component {
   }
 
   getReleases = () => {
-    for (let i = 1; i < 10; i++) {
-      axios
-        .get(`https://api.discogs.com/release/{i}`)
-        .then(response => response.data)
-        .then(release => {
-          this.setState({
-            data: release
-          });
+    axios
+      .get("https://api.discogs.com/release/1")
+      .then(response => response.data)
+      .then(release => {
+        this.setState({
+          data: release
         });
-    }
+      });
   };
+
   render() {
     return (
       <div className="App">
-        <button onClick={this.getReleases}>Get releases</button>
+        {this.state.data===null ? <h1>loading</h1> : this.state.data}
       </div>
     );
   }
