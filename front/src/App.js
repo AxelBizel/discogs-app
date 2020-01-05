@@ -24,6 +24,7 @@ class App extends Component {
           data: release
         });
       });
+      console.log(this.state)
   };
 
   render() {
