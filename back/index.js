@@ -25,23 +25,20 @@ const dis = new Discogs("MyUserAgent/1.0", {
 });
 
 //Récupération collection
-const col = new Discogs().user().collection();
 
-col.getReleases("iktor", 0, { page: 1, per_page: 200 }, function(err, data) {
-  if (err) {
-    console.log(err);
-    res.status(500).send("Error 500");
-  } 
-  else {
+const col = new Discogs().user().collection();
+col.getReleases("iktor", 0, { page: 1, per_page: 10000 }, function(err, data) {
+  // if (err) {
+  //   console.log(err);
+  //   res.status(500).send("Error 500");
+  // } else {
     const collection = data.releases;
     for (let i = 0; i < collection.length; i++) {
       items.push(collection[i].basic_information);
     }
-  }
-  console.log(items[0]);
+  
+  console.log(items.length);
 });
-
-
 
 //Récupération images
 
@@ -57,20 +54,11 @@ col.getReleases("iktor", 0, { page: 1, per_page: 200 }, function(err, data) {
 // });
 
 //Exemple route
-// app.get("/api/portfolios/:id", (req, res) => {
-//   connection.query(
-//     " SELECT * from portfolio where id = ?",
-//     [req.params.id],
-//     (err, results) => {
-//       if (err) {
-//         console.log(err);
-//         res.status(500).send("Error 500");
-//       } else {
-//         res.json(results);
-//       }
-//     }
-//   );
-// });
+app.get("/api/collection", items, (req, res) => {
+  
+        res.json(items);
+     
+});
 
 //server
 app.get("/", (request, response) => {
