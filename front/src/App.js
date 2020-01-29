@@ -17,7 +17,7 @@ class App extends Component {
 
   getReleases = () => {
     axios
-      .get("https://api.discogs.com/release/1")
+      .get("https://api.discogs.com/iktor/collection/folders/0")
       .then(response => response.data)
       .then(release => {
         this.setState({
