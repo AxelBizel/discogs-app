@@ -5,6 +5,9 @@ const port = 5000;
 // const connection = require("./helpers/conf");
 const Discogs = require("disconnect").Client;
 const bodyParser = require("body-parser");
+const fs = require("fs");
+const cors = require("cors");
+const items = [];
 
 //middleware bodyparser
 app.use(bodyParser.json());
@@ -13,16 +16,34 @@ app.use(
     extended: true
   })
 );
+app.use(cors());
+app.use("/img", express.static(__dirname + "/img"));
 
 //middleware discogs
 const dis = new Discogs("MyUserAgent/1.0", {
   userToken: "ihaxeiWwNjRMXvAwufCvUNIqvFCRUQWDQGrtUdhU"
 });
 
+//Récupération collection
 const col = new Discogs().user().collection();
-col.getReleases("iktor", 0, { page: 1, per_page: 5 }, function(err, data) {
-  console.log(data);
+
+col.getReleases("iktor", 0, { page: 1, per_page: 200 }, function(err, data) {
+  if (err) {
+    console.log(err);
+    res.status(500).send("Error 500");
+  } 
+  else {
+    const collection = data.releases;
+    for (let i = 0; i < collection.length; i++) {
+      items.push(collection[i].basic_information);
+    }
+  }
+  console.log(items[0]);
 });
+
+
+
+//Récupération images
 
 // var db = new Discogs(accessData).database();
 // db.getRelease(176126, function(err, data){
@@ -33,6 +54,22 @@ col.getReleases("iktor", 0, { page: 1, per_page: 5 }, function(err, data) {
 // 			console.log('Image saved!');
 // 		});
 // 	});
+// });
+
+//Exemple route
+// app.get("/api/portfolios/:id", (req, res) => {
+//   connection.query(
+//     " SELECT * from portfolio where id = ?",
+//     [req.params.id],
+//     (err, results) => {
+//       if (err) {
+//         console.log(err);
+//         res.status(500).send("Error 500");
+//       } else {
+//         res.json(results);
+//       }
+//     }
+//   );
 // });
 
 //server
