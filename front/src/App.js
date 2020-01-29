@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import "./App.css";
 import axios from "axios";
+import Collection from "./components/Collection";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: null
+      collection: null
     };
     this.getReleases = this.getReleases.bind(this);
   }
@@ -16,21 +17,19 @@ class App extends Component {
   }
 
   getReleases = () => {
-    axios
-      .get("https://api.discogs.com/iktor/collection/folders/0")
-      .then(response => response.data)
-      .then(release => {
-        this.setState({
-          data: release
-        });
+    axios.get("http://localhost:5000/api/collection/").then(res => {
+      const collection = res.data;
+      this.setState({
+        collection: collection
       });
-      console.log(this.state)
+      console.log(this.state);
+    });
   };
 
   render() {
     return (
       <div className="App">
-        {this.state.data===null ? <h1>loading</h1> : this.state.data}
+        <Collection collection={this.state.collection} />
       </div>
     );
   }
