@@ -49,6 +49,7 @@ class Collection extends Component {
           </Col>
         </Row>
 
+
         <Row>
           <Col>
             <h4 style={{ textAlign: "center" }}>
@@ -58,6 +59,7 @@ class Collection extends Component {
             </h4>
           </Col>
         </Row>
+
 
         <Row>
           <Col>
