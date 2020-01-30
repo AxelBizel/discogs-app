@@ -26,7 +26,6 @@ app.use(
 app.use(cors());
 app.use(express.static("img"));
 
-
 //middleware discogs
 // const dis = new Discogs("MyUserAgent/1.0", {
 //   userToken: "ihaxeiWwNjRMXvAwufCvUNIqvFCRUQWDQGrtUdhU"
@@ -88,7 +87,6 @@ col.getReleases("iktor", 0, { page: 1, per_page: 10000 }, function(err, data) {
     }
   }
 });
-
 
 //Route permettant de récupérer l'ensemble des items de la collection
 app.get("/api/collection", items, (req, res) => {
