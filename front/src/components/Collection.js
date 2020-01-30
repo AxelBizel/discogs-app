@@ -11,21 +11,37 @@ import {
   CardSubtitle,
   Input
 } from "reactstrap";
+import { connect } from "react-redux";
+import { getReleases } from "../actions";
+import logoDiscogs from "../logoDiscogs.svg";
 
 class Collection extends Component {
+  componentDidMount() {
+    this.props.dispatch(getReleases());
+  }
+
   render() {
-    const { collection, nbDisques } = this.props;
+    const { collection } = this.props;
+
     return (
       <Container>
         <Row>
-          <Col  style={{ margin: "5vh 1vw" }}>
-            <h1 style={{ textAlign: "center" }}>My Collection</h1>
+          <Col style={{ margin: "5vh 1vw" }}>
+            <h1 style={{ textAlign: "center" }}>
+              Your{" "}
+              <img src={logoDiscogs} alt="Discogs " style={{ width: "40px" }} />{" "}
+              Collection
+            </h1>
           </Col>
         </Row>
-        
+
         <Row>
           <Col>
-            <h4 style={{ textAlign: "center" }}>You got {nbDisques} releases in your collection.</h4>
+            <h4 style={{ textAlign: "center" }}>
+              You got{" "}
+              {collection.length === 0 ? 0 : collection.collection.length}{" "}
+              releases in your collection.
+            </h4>
           </Col>
         </Row>
 
@@ -42,10 +58,10 @@ class Collection extends Component {
         </Row>
 
         <Row>
-          {collection === null ? (
+          {collection.length === 0 ? (
             <h1>loading</h1>
           ) : (
-            collection.map((item, index) => (
+            collection.collection.map((item, index) => (
               <Col xs="12" sm="6" lg="3" key={index}>
                 <Card style={{ margin: "1vh 1vw" }}>
                   <CardImg
@@ -81,4 +97,9 @@ class Collection extends Component {
   }
 }
 
-export default Collection;
+function mstp(state) {
+  console.log(state.collection);
+  return { collection: state.collection };
+}
+
+export default connect(mstp)(Collection);
