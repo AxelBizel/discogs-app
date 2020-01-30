@@ -8,6 +8,7 @@ class App extends Component {
     super(props);
     this.state = {
       collection: null,
+      nbDisques:null
     };
     this.getReleases = this.getReleases.bind(this);
   }
@@ -20,7 +21,7 @@ class App extends Component {
     axios.get("http://localhost:5000/api/collection/").then(res => {
       const collection = res.data;
       this.setState({
-        collection: collection
+        collection: collection, nbDisques:collection.length
       });
       console.log(this.state);
     });
@@ -29,7 +30,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Collection collection={this.state.collection} />
+        <Collection collection={this.state.collection} nbDisques={this.state.nbDisques} />
       </div>
     );
   }

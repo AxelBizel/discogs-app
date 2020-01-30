@@ -14,14 +14,21 @@ import {
 
 class Collection extends Component {
   render() {
-    const { collection } = this.props;
+    const { collection, nbDisques } = this.props;
     return (
       <Container>
         <Row>
-          <Col  style={{ marginTop: "5vh" }}>
+          <Col  style={{ margin: "5vh 1vw" }}>
             <h1 style={{ textAlign: "center" }}>My Collection</h1>
           </Col>
         </Row>
+        
+        <Row>
+          <Col>
+            <h4 style={{ textAlign: "center" }}>You got {nbDisques} releases in your collection.</h4>
+          </Col>
+        </Row>
+
         <Row>
           <Col>
             <Input
@@ -33,6 +40,7 @@ class Collection extends Component {
             />
           </Col>
         </Row>
+
         <Row>
           {collection === null ? (
             <h1>loading</h1>
