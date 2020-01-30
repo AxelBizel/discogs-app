@@ -8,7 +8,8 @@ import {
   CardText,
   CardBody,
   CardTitle,
-  CardSubtitle
+  CardSubtitle,
+  Input
 } from "reactstrap";
 
 class Collection extends Component {
@@ -17,7 +18,20 @@ class Collection extends Component {
     return (
       <Container>
         <Row>
-          <h1 style={{ textAlign: "center" }}>My Collection</h1>
+          <Col  style={{ marginTop: "5vh" }}>
+            <h1 style={{ textAlign: "center" }}>My Collection</h1>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Input
+              type="text"
+              name="filter"
+              id="filter"
+              placeholder="Type something to filter"
+              style={{ margin: "5vh 1vw" }}
+            />
+          </Col>
         </Row>
         <Row>
           {collection === null ? (
@@ -36,9 +50,7 @@ class Collection extends Component {
                     <CardTitle
                       style={{ marginBottom: "0.5rem", fontWeight: "bold" }}
                     >
-                      {item.artists.map(
-                        artist => `${artist.name} `
-                      )}
+                      {item.artists.map(artist => `${artist.name} `)}
                     </CardTitle>
                     <CardSubtitle>{item.title}</CardSubtitle>
                     <CardText
