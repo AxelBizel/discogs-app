@@ -1,18 +1,12 @@
 import React, { Component } from "react";
 import "./App.css";
-import axios from "axios";
+// import axios from "axios";
 import Collection from "./components/Collection";
 import { connect } from "react-redux";
 import { getReleases } from "./actions";
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collection: null,
-      nbDisques: null
-    };
-  }
+
 
   componentDidMount() {
     this.props.dispatch(getReleases());
