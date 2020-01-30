@@ -84,7 +84,7 @@ col.getReleases("iktor", 0, { page: 1, per_page: 10000 }, function(err, data) {
   } else {
     const collection = data.releases;
     for (let i = 0; i < collection.length; i++) {
-      items.push(collection[i]);
+      items.push(collection[i].basic_information);
     }
   }
 });
