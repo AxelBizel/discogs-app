@@ -31,7 +31,6 @@ class Collection extends Component {
     this.setState({
       filter: event.target.value
     });
-    console.log(this.state.filter);
   };
 
   render() {
@@ -78,14 +77,14 @@ class Collection extends Component {
             <h1>loading</h1>
           ) : (
             collection.collection
-              .filter(
-                item =>
-                  item.title.includes(filter) ||
-                  item.artists[0].name.includes(filter) ||
-                  item.artists.includes(filter) === true ||
-                  item.labels[0].name.includes(filter) ||
-                  item.labels.includes(filter) === true 
-              )
+              .filter(item => {
+                const regex = new RegExp(filter, "i");
+                return regex.test(
+                  item.title +
+                    item.artists.map(a => a.name).join("") +
+                    item.labels.map(l => l.name).join("")
+                );
+              })
               .map((item, index) => (
                 <Col xs="12" sm="6" lg="3" key={index}>
                   <Card style={{ margin: "1vh 1vw" }}>
