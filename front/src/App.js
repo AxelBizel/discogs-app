@@ -7,7 +7,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collection: null
+      collection: null,
     };
     this.getReleases = this.getReleases.bind(this);
   }
