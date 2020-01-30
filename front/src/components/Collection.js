@@ -65,7 +65,7 @@ class Collection extends Component {
               type="text"
               name="filter"
               id="filter"
-              placeholder="Type something to filter"
+              placeholder="Type to filter by artist, title, label or date"
               style={{ margin: "5vh 1vw" }}
               onChange={this.handleChange}
             />
@@ -82,7 +82,9 @@ class Collection extends Component {
                 return regex.test(
                   item.title +
                     item.artists.map(a => a.name).join("") +
-                    item.labels.map(l => l.name).join("")
+                    item.labels.map(l => l.name).join("") +
+                    item.formats.map(f => f.name).join("") +
+                    item.year
                 );
               })
               .map((item, index) => (
