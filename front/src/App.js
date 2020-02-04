@@ -28,7 +28,7 @@ function App(props) {
 
 function mstp(state) {
   console.log("App mstp", state);
-  return { collection: state.collection, sortBy: state.sortBy.sortname };
+  return { collection: state.collection, sortBy: state.sortBy };
 }
 
 export default connect(mstp)(App);

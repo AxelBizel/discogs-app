@@ -20,7 +20,7 @@ const CollectionSort = props => {
   useEffect(() => {
     sortReleases(sortBy);
   }, [sortBy]);
-  console.log("gg", sortBy);
+
   return (
     <Container>
       <Row>

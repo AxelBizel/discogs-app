@@ -4,7 +4,7 @@ import sortBy_reducer from "./sortBy_reducer";
 
 export const initState = {
   collection: null,
-  sortBy: { sortName: "" }
+  sortBy: { sortName: "Artist A-Z" }
 };
 
 const rootReducer = combineReducers({
