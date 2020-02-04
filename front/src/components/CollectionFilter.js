@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Row, Col, Container, Input } from "reactstrap";
 import CollectionDisplayCard from "./CollectionDisplayCard";
 
+
 function CollectionFilter(props) {
   const [filter, setFilter] = useState("");
   const {collection} = props.collection;
@@ -44,6 +45,5 @@ function CollectionFilter(props) {
     </Container>
   );
 }
-
 
 export default CollectionFilter;

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const getReleases = () => {
   return dispatch => {
@@ -10,3 +10,22 @@ export const getReleases = () => {
     });
   };
 };
+
+export const sortReleases = sortBy => {
+  console.log("action sort by", sortBy);
+  return {
+    type: "SORT_COLLECTION",
+    payload: sortBy
+  };
+};
+
+
+// export const sortReleases = (sortBy) => {
+//   console.log("action sort by", sortBy);
+//   return dispatch => {
+//     dispatch({
+//       type: "SORT_COLLECTION",
+//       payload: sortBy
+//     });
+//   };
+// };

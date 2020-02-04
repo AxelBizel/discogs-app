@@ -6,14 +6,13 @@ import Header from "./components/Header";
 import Collection from "./components/Collection";
 
 function App(props) {
-
-const {dispatch, collection} = props
+  const { dispatch, collection, sortBy } = props;
 
   useEffect(() => {
     dispatch(getReleases());
   }, []);
 
-  console.log("props App", collection);
+  console.log("props App", collection, sortBy);
   return (
     <div className="App">
       <Header />
@@ -28,7 +27,8 @@ const {dispatch, collection} = props
 }
 
 function mstp(state) {
-  return { collection: state.collection };
+  console.log("App mstp", state);
+  return { collection: state.collection, sortBy: state.sortBy.sortname };
 }
 
 export default connect(mstp)(App);

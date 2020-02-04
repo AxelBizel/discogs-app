@@ -1,6 +1,7 @@
 import React from "react";
 import CollectionCounter from "./CollectionCounter";
 import CollectionFilter from "./CollectionFilter";
+import CollectionSort from "./CollectionSort";
 
 function Collection(props) {
  const {collection} = props
@@ -8,6 +9,7 @@ function Collection(props) {
   return (
     <>
       <CollectionCounter collection={collection} />
+      <CollectionSort collection = {collection} />
       <CollectionFilter collection={collection} />
     </>
   );
