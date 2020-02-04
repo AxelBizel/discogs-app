@@ -1,14 +1,12 @@
 import { combineReducers } from "redux";
-import reducer_filter from "./reducer_filter.js";
+import collection_reducer from "./collection_reducer";
 
 export const initState = {
-  collection:{collection:''},
-  filter: []
+  collection:null
 };
 
 const rootReducer = combineReducers({
-  collection: reducer_filter,
-  filter: reducer_filter
+  collection: collection_reducer
 });
 
 export default rootReducer;

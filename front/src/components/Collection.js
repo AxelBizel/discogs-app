@@ -3,8 +3,8 @@ import CollectionCounter from "./CollectionCounter";
 import CollectionFilter from "./CollectionFilter";
 
 function Collection(props) {
-  const collection = props.collection;
-
+ const {collection} = props
+ console.log('props Collection',collection )
   return (
     <>
       <CollectionCounter collection={collection} />

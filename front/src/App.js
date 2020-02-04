@@ -1,23 +1,34 @@
-import React, { Component } from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { connect } from "react-redux";
 import { getReleases } from "./actions";
-import Collection from "./components/Collection";
 import Header from "./components/Header";
+import Collection from "./components/Collection";
 
-class App extends Component {
-  componentDidMount() {
-    this.props.dispatch(getReleases());
-  }
+function App(props) {
 
-  render() {
-    return (
-      <div className="App">
-        <Header />
-        <Collection collection={this.props.collection} /> 
-      </div>
-    );
-  }
+const {dispatch, collection} = props
+
+  useEffect(() => {
+    dispatch(getReleases());
+  }, []);
+
+  console.log("props App", collection);
+  return (
+    <div className="App">
+      <Header />
+
+      {collection === null ? (
+        <h1>Loading</h1>
+      ) : (
+        <Collection collection={collection} />
+      )}
+    </div>
+  );
 }
 
-export default connect()(App);
+function mstp(state) {
+  return { collection: state.collection };
+}
+
+export default connect(mstp)(App);

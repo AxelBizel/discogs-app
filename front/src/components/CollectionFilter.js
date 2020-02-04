@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Row, Col, Container, Input } from "reactstrap";
-import { connect } from "react-redux";
 import CollectionDisplayCard from "./CollectionDisplayCard";
 
 function CollectionFilter(props) {
   const [filter, setFilter] = useState("");
-  const collection = props.collection
+  const {collection} = props.collection;
 
   return (
     <Container>
@@ -23,10 +22,10 @@ function CollectionFilter(props) {
       </Row>
 
       <Row>
-        {collection.length === 0 ? (
+        {collection === null ? (
           <h1>loading</h1>
         ) : (
-          collection.collection
+          collection
             .filter(item => {
               const regex = new RegExp(filter, "i");
               return regex.test(
@@ -38,7 +37,7 @@ function CollectionFilter(props) {
               );
             })
             .map((item, index) => (
-              <CollectionDisplayCard key={index} item={item} index={index} />
+              <CollectionDisplayCard key={`card-${index}`} item={item} index={index} />
             ))
         )}
       </Row>
@@ -46,9 +45,5 @@ function CollectionFilter(props) {
   );
 }
 
-function mstp(state) {
-  console.log(state.collection);
-  return { collection: state.collection, filter: state.filter };
-}
 
-export default connect(mstp)(CollectionFilter);
+export default CollectionFilter;
