@@ -11,26 +11,38 @@ function CollectionFilter(props) {
 
   const collectionSort = property => {
     switch (property) {
-      case "Artist A-Z":
+      case "Artist (asc)":
         return function(a, b) {
           return a["artists"][0]["name"].localeCompare(b["artists"][0]["name"]);
         };
-      case "Artist Z-A":
+      case "Artist (desc)":
         return function(a, b) {
           return b["artists"][0]["name"].localeCompare(a["artists"][0]["name"]);
         };
 
-      case "title":
+      case "Title (asc)":
+        return function(a, b) {
+          return a["title"].localeCompare(b["title"]);
+        };
+      case "Title (desc)":
         return function(a, b) {
           return b["title"].localeCompare(a["title"]);
+        };
+
+      case "Year (asc)":
+        return function(a, b) {
+          return a["year"].toString().localeCompare(b["year"]).toString();
+      
+        };
+      case "Year (desc)":
+        return function(a, b) {
+          return b["year"].toString().localeCompare(a["year"]).toString();
         };
 
       default:
         break;
     }
   };
-
-  
 
   return (
     <Container>

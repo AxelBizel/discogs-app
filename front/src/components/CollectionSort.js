@@ -13,7 +13,7 @@ import { connect } from "react-redux";
 
 const CollectionSort = props => {
   const [dropdownOpen, setOpen] = useState(false);
-  const [sortBy, setSortBy] = useState("Artist A-Z");
+  const [sortBy, setSortBy] = useState("Artist (asc)");
   const toggle = () => setOpen(!dropdownOpen);
   const { sortReleases } = props;
 
@@ -28,18 +28,25 @@ const CollectionSort = props => {
           <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
             <DropdownToggle caret>Sort by {sortBy}</DropdownToggle>
             <DropdownMenu>
-              <DropdownItem onClick={() => setSortBy("Artist A-Z")}>
-                Artist A-Z
+              <DropdownItem onClick={() => setSortBy("Artist (asc)")}>
+                Artist (asc)
               </DropdownItem>
-              <DropdownItem onClick={() => setSortBy("Artist Z-A")}>
-                Artist Z-A
+              <DropdownItem onClick={() => setSortBy("Artist (desc)")}>
+                Artist (desc)
               </DropdownItem>
               <DropdownItem divider />
-              <DropdownItem onClick={() => setSortBy("Year (Asc)")}>
+              <DropdownItem onClick={() => setSortBy("Title (asc)")}>
+                Title (asc)
+              </DropdownItem>
+              <DropdownItem onClick={() => setSortBy("Title (desc)")}>
+                Title (desc)
+              </DropdownItem>
+              <DropdownItem divider />
+              <DropdownItem onClick={() => setSortBy("Year (asc)")}>
                 Year (asc)
               </DropdownItem>
-              <DropdownItem onClick={() => setSortBy("Year (Desc)")}>
-                Year(desc)
+              <DropdownItem onClick={() => setSortBy("Year (desc)")}>
+                Year (desc)
               </DropdownItem>
             </DropdownMenu>
           </ButtonDropdown>
