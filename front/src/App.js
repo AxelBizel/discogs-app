@@ -20,7 +20,7 @@ function App(props) {
       {collection === null ? (
         <h1>Loading</h1>
       ) : (
-        <Collection collection={collection} />
+        <Collection collection={collection} sortBy={sortBy}/>
       )}
     </div>
   );

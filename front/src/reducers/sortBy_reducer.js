@@ -4,8 +4,8 @@ export default function sortBy_reducer(state = initState.sortBy, action) {
   switch (action.type) {
     case "SORT_COLLECTION":
       return {
-        ...state,
-        sortName: action.payload
+      
+        sortBy: action.payload
       };
     default:
       return state;
