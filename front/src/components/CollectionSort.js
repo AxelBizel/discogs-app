@@ -21,7 +21,7 @@ const CollectionSort = props => {
   }, [sortBy]);
 
   return (
-    <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} style={{ margin: "5vh 1vw" }}>
+    <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} style={{ margin: "1vh 1vw" }}>
       <DropdownToggle caret>Sort by {sortBy}</DropdownToggle>
       <DropdownMenu>
         <DropdownItem onClick={() => setSortBy("Artist (asc)")}>

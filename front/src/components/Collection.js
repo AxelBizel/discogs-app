@@ -15,7 +15,7 @@ function Collection(props) {
         <CollectionCounter collection={collection} />
         </Col>
       </Row>
-      <Row>
+      <Row style={{ margin: "5vh 0" }}>
         <Col xs='12' md='8'>
           <CollectionFilter collection={collection} />
         </Col>
