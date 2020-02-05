@@ -19,13 +19,11 @@ export const sortReleases = sortBy => {
   };
 };
 
+export const filterReleases = filterBy => {
+  console.log("action filter by", filterBy);
+  return {
+    type: "FILTER_COLLECTION",
+    payload: filterBy
+  };
+};
 
-// export const sortReleases = (sortBy) => {
-//   console.log("action sort by", sortBy);
-//   return dispatch => {
-//     dispatch({
-//       type: "SORT_COLLECTION",
-//       payload: sortBy
-//     });
-//   };
-// };

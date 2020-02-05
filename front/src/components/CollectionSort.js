@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   Row,
   Col,
-  Container,
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,
@@ -22,37 +21,31 @@ const CollectionSort = props => {
   }, [sortBy]);
 
   return (
-    <Container>
-      <Row>
-        <Col>
-          <ButtonDropdown isOpen={dropdownOpen} toggle={toggle}>
-            <DropdownToggle caret>Sort by {sortBy}</DropdownToggle>
-            <DropdownMenu>
-              <DropdownItem onClick={() => setSortBy("Artist (asc)")}>
-                Artist (asc)
-              </DropdownItem>
-              <DropdownItem onClick={() => setSortBy("Artist (desc)")}>
-                Artist (desc)
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem onClick={() => setSortBy("Title (asc)")}>
-                Title (asc)
-              </DropdownItem>
-              <DropdownItem onClick={() => setSortBy("Title (desc)")}>
-                Title (desc)
-              </DropdownItem>
-              <DropdownItem divider />
-              <DropdownItem onClick={() => setSortBy("Year (asc)")}>
-                Year (asc)
-              </DropdownItem>
-              <DropdownItem onClick={() => setSortBy("Year (desc)")}>
-                Year (desc)
-              </DropdownItem>
-            </DropdownMenu>
-          </ButtonDropdown>
-        </Col>
-      </Row>
-    </Container>
+    <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} style={{ margin: "5vh 1vw" }}>
+      <DropdownToggle caret>Sort by {sortBy}</DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem onClick={() => setSortBy("Artist (asc)")}>
+          Artist (asc)
+        </DropdownItem>
+        <DropdownItem onClick={() => setSortBy("Artist (desc)")}>
+          Artist (desc)
+        </DropdownItem>
+        <DropdownItem divider />
+        <DropdownItem onClick={() => setSortBy("Title (asc)")}>
+          Title (asc)
+        </DropdownItem>
+        <DropdownItem onClick={() => setSortBy("Title (desc)")}>
+          Title (desc)
+        </DropdownItem>
+        <DropdownItem divider />
+        <DropdownItem onClick={() => setSortBy("Year (asc)")}>
+          Year (asc)
+        </DropdownItem>
+        <DropdownItem onClick={() => setSortBy("Year (desc)")}>
+          Year (desc)
+        </DropdownItem>
+      </DropdownMenu>
+    </ButtonDropdown>
   );
 };
 
