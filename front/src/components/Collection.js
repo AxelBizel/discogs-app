@@ -1,26 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
+import Header from "./Header";
+import Navigation from "./Navigation.js";
+
 import CollectionCounter from "./CollectionCounter";
 import CollectionDisplay from "./CollectionDisplay";
 import CollectionFilter from "./CollectionFilter";
 import CollectionSort from "./CollectionSort";
 import { Container, Row, Col } from "reactstrap";
+import { connect } from "react-redux";
+import { getReleases } from "../actions";
 
 function Collection(props) {
-  const { collection, sortBy, filterBy } = props;
+  const { collection, sortBy, filterBy, dispatch } = props;
   console.log("props Collection", collection, sortBy, filterBy);
+
+  useEffect(() => {
+    dispatch(getReleases());
+  }, []);
+
   return (
     <Container>
+      <Header />
       <Row>
         <Col>
-        <CollectionCounter collection={collection} />
+          <Navigation />
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <CollectionCounter collection={collection} />
         </Col>
       </Row>
       <Row style={{ margin: "5vh 0" }}>
-        <Col xs='12' md='8'>
-          <CollectionFilter collection={collection} />
+        <Col xs="12" md="9">
+          <CollectionFilter />
         </Col>
-        <Col xs='12' md='4'>
-          <CollectionSort collection={collection} />
+        <Col xs="12" md="3">
+          <CollectionSort />
         </Col>
       </Row>
       <Row>
@@ -34,4 +50,12 @@ function Collection(props) {
   );
 }
 
-export default Collection;
+function mstp(state) {
+  console.log("App mstp", state);
+  return {
+    collection: state.collection,
+    sortBy: state.sortBy,
+    filterBy: state.filterBy
+  };
+}
+export default connect(mstp)(Collection);

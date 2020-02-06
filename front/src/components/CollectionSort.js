@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Row,
-  Col,
   ButtonDropdown,
   DropdownToggle,
   DropdownMenu,

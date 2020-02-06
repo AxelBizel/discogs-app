@@ -2,6 +2,7 @@ import React from "react";
 import CollectionDisplayCard from "./CollectionDisplayCard";
 import { filterReleases } from "../actions";
 import { connect } from "react-redux";
+import Loader from "./Loader";
 
 function CollectionDisplay(props) {
   const { collection } = props.collection;
@@ -48,7 +49,7 @@ function CollectionDisplay(props) {
   return (
     <>
       {collection === null || sortBy === undefined ? (
-        <h1>loading</h1>
+        <Loader/>
       ) : (
         collection
           .sort(collectionSort(sortBy))

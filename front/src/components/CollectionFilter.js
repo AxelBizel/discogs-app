@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col, Input } from "reactstrap";
+import { Input } from "reactstrap";
 import { filterReleases } from "../actions";
 import { connect } from "react-redux";
 

@@ -74,7 +74,6 @@ app.get("/identity", function(req, res) {
 });
 
 //Récupération collection
-
 const col = new Discogs(accessData).user().collection();
 col.getReleases("iktor", 0, { page: 1, per_page: 10000 }, function(err, data) {
   if (err) {
@@ -82,6 +81,7 @@ col.getReleases("iktor", 0, { page: 1, per_page: 10000 }, function(err, data) {
     res.status(500).send("Error 500");
   } else {
     const collection = data.releases;
+    console.log(data.releases)
     for (let i = 0; i < collection.length; i++) {
       items.push(collection[i].basic_information);
     }
