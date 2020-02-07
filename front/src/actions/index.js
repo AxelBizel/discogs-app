@@ -27,3 +27,10 @@ export const filterReleases = filterBy => {
   };
 };
 
+
+export const isLoggedIn = loggedIn => {
+  return {
+    type: "RESET_LOGGED_IN",
+    payload: !loggedIn
+  };
+}

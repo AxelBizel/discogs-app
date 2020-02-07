@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Axios from "axios";
 import "./login.css";
+import { isLoggedIn } from "../actions";
+import { connect } from "react-redux";
 
 function Login() {
   const [login, setLogin] = useState("");
@@ -27,9 +29,13 @@ function Login() {
     //   }
     // }
 
+    useEffect(() => {
+      isLoggedIn(loggedIn);
+    }, [loggedIn]);
+
   return (
     <>
-      {loggedIn === false ? (
+      {loggedIn === false && login !=="" ? (
         <>
           <div className="flexContainerLogin">
             <div class="wrapperLogin fadeInDown">
@@ -61,7 +67,7 @@ function Login() {
                     class="fadeIn fourth"
                     value="Connexion"
                     className="inputForm submitLogin"
-                    onClicke={setLoggedIn(!loggedIn)}
+                    onClick={setLoggedIn(false)}
                   />
                 </form>
 
@@ -82,4 +88,19 @@ function Login() {
   );
 }
 
-export default Login;
+
+
+function mstp(state) {
+  return { isLoggedIn: state.isLoggedIn };
+}
+
+function mdtp(dispatch) {
+  return {
+    isLoggedIn: isLoggedIn => {
+      dispatch(isLoggedIn(isLoggedIn));
+    }
+  };
+}
+
+export default connect(mstp, mdtp)(Login);
+
