@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import Header from "./Header";
 import Navigation from "./Navigation.js";
-
 import CollectionCounter from "./CollectionCounter";
 import CollectionDisplay from "./CollectionDisplay";
 import CollectionFilter from "./CollectionFilter";

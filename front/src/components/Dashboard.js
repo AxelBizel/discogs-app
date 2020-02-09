@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./Header";
 import Navigation from "./Navigation.js";
 import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
+import { getYears } from "../actions";
 import "../App.css";
+import Loader from "./Loader";
+import DashboardYearsRelease from "./DashboardYearsRelease";
 
-function Dashboard(props) {
+
+const Dashboard = (props) =>  {
+
+  const { dispatch, years } = props
+
+  useEffect(() => {
+    dispatch(getYears());
+  }, []);
+
   return (
-    <div className="App">
       <Container>
         <Header />
         <Row>
@@ -16,18 +26,25 @@ function Dashboard(props) {
           </Col>
         </Row>
         <Row>
-            <h1>Dashboard</h1>
+            {years === null ? (<Loader />) :( <DashboardYearsRelease years={years.years}/>)}
         </Row>
       </Container>
-    </div>
   );
-}
+};
 
 function mstp(state) {
-    console.log("App mstp", state);
-    return {
-      collection: state.collection
-    };
-  }
+  console.log("Dashboard mstp", state.years);
+  return {
+    years: state.years
+  };
+  };
 
-export default connect(mstp) (Dashboard);
+// function mdtp(dispatch) {
+//     return {
+//       getYears: () => {
+//         dispatch(getYears());
+//       }
+//     };
+//   };
+
+export default connect(mstp)(Dashboard);

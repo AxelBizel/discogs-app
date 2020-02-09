@@ -11,6 +11,18 @@ export const getReleases = () => {
   };
 };
 
+export const getYears = () => {
+  return dispatch => {
+    axios.get("http://localhost:5000/api/years/").then(res => {
+      dispatch({
+        type: "GET_YEARS",
+        payload: res.data
+      });
+    });
+  };
+};
+
+
 export const sortReleases = sortBy => {
   console.log("action sort by", sortBy);
   return {

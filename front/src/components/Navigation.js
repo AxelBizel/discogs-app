@@ -5,6 +5,8 @@ import {
   NavItem,
   NavLink
 } from "reactstrap";
+import {connect} from 'react-redux'
+import { isLoggedIn } from "../actions";
 
 const Navigation = () => {
 
@@ -29,7 +31,7 @@ const Navigation = () => {
         </Col>
         <Col>
         <NavItem>
-          <NavLink href="/">Login</NavLink>
+          <NavLink href="/" onClick={()=>isLoggedIn(false)}>Login</NavLink>
         </NavItem>
         </Col>
       </Nav>
@@ -37,4 +39,12 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+
+function mdtp(dispatch) {
+  return {
+    isLoggedIn: isLoggedIn => {
+      dispatch(isLoggedIn(isLoggedIn));
+    }
+  };
+}
+export default connect(null, mdtp) (Navigation);

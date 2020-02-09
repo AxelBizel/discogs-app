@@ -12,7 +12,6 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Collection from "./components/Collection";
 import Dashboard from "./components/Dashboard";
 import Explore from "./components/Explore";
-// import Login from "./components/Login";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
@@ -24,7 +23,6 @@ ReactDOM.render(
                 <Route path="/collection" component={Collection} />
                 <Route path="/dashboard" component={Dashboard} />
                 <Route path="/explore" component={Explore} />
-
             </Switch>
         </Router>
   </Provider>,

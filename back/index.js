@@ -6,6 +6,7 @@ const Discogs = require("disconnect").Client;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 let items = [];
+let yearsRelease = [];
 var ls = require("local-storage");
 var accessData = {
   method: "oauth",
@@ -81,16 +82,23 @@ col.getReleases("iktor", 0, { page: 1, per_page: 10000 }, function(err, data) {
     res.status(500).send("Error 500");
   } else {
     const collection = data.releases;
-    console.log(data.releases)
     for (let i = 0; i < collection.length; i++) {
       items.push(collection[i].basic_information);
+      yearsRelease.push(collection[i].basic_information.year);
     }
+    console.log('yearsRelease', yearsRelease)
   }
 });
 
 //Route permettant de récupérer l'ensemble des items de la collection
 app.get("/api/collection", items, (req, res) => {
   res.json(items);
+});
+
+
+//Route permettant de récupérer les années de sortie des items de la collection
+app.get("/api/years", yearsRelease, (req, res) => {
+  res.json(yearsRelease);
 });
 
 //LISTEN
