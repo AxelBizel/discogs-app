@@ -5,11 +5,17 @@ const port = 5000;
 const Discogs = require("disconnect").Client;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+
+
+//Variables
 let items = [];
 let yearsRelease = [];
-var ls = require("local-storage");
+let parsedYears = [];
+let ls = require("local-storage");
+let firstYear = "";
 
-var accessData = {
+//AccessData
+let accessData = {
   method: "oauth",
   level: 2,
   consumerKey: "IlatcCHyzkBKGDnipIlm",
@@ -18,7 +24,7 @@ var accessData = {
   tokenSecret: "NalHndvwXMixAIfTBPDJbZhItCcaELUiLCrAUSEo"
 };
 
-//middleware bodyparser
+//Middlewares
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
@@ -84,10 +90,18 @@ col.getReleases("iktor", 0, { page: 1, per_page: 10000 }, function(err, data) {
   } else {
     const collection = data.releases;
     for (let i = 0; i < collection.length; i++) {
+      //recupération items
       items.push(collection[i].basic_information);
+      //récupération années de sortie
       yearsRelease.push(collection[i].basic_information.year);
     }
-    console.log('yearsRelease', yearsRelease)
+    //tri des années de sortie
+    firstYear = Math.min(...yearsRelease.filter(i => i > 0));
+    console.log(firstYear)
+    yearsRelease.forEach(i => {
+      if (i in parsedYears) parsedYears[i] += 1;
+      else parsedYears[i] = 1;
+    });
   }
 });
 
@@ -96,11 +110,17 @@ app.get("/api/collection", items, (req, res) => {
   res.json(items);
 });
 
-
-//Route permettant de récupérer les années de sortie des items de la collection
-app.get("/api/years", yearsRelease, (req, res) => {
-  res.json(yearsRelease);
+//Route permettant de récupérer les années de sortie triées
+app.get("/api/years", parsedYears, (req, res) => {
+  res.json(parsedYears);
 });
+
+//Route permettant de récupérer la 1e année de sortie
+app.get("/api/firstYear", (req, res) => {
+  res.send(firstYear)
+});
+ 
+
 
 //LISTEN
 app.listen(port, err => {
