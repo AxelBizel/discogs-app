@@ -1,24 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardYearsRelease = years => {
-  const [yearsGraph, setYearsGraph] = useState(null);
-  console.log("state", yearsGraph);
-
-  useEffect(() => {
-    if (yearsArray) {
-      setYearsGraph(yearsArray);
-    }
-  }, []);
-
-  let yearsArray = years.years.map(i => {
-    return i ? i : 0;
+  const svgRef = useRef();
+  let yearsArray = years.years.map(y => {
+    return y ? y : 0;
   });
-
-  console.log(yearsArray);
+  let firstYear = yearsArray.findIndex((y, i) => y > 0 && i > 0);
 
   const options = {
     chart: {
@@ -49,11 +40,11 @@ const DashboardYearsRelease = years => {
     },
     plotOptions: {
       area: {
-        pointStart: 1969,
+        pointStart: firstYear,
         marker: {
           enabled: false,
           symbol: "circle",
-          radius: 2,
+          radius: 3,
           states: {
             hover: {
               enabled: true
@@ -65,14 +56,15 @@ const DashboardYearsRelease = years => {
     series: [
       {
         name: "Nombre de disques dans la collection",
-        data: yearsArray.slice(1969)
+        data: yearsArray.slice(firstYear)
       }
     ]
   };
 
   return (
     <div style={{ width: "100%" }}>
-      {yearsGraph ? (
+      <svg ref={svgRef}></svg>
+      {yearsArray ? (
         <HighchartsReact highcharts={Highcharts} options={options} />
       ) : (
         <FontAwesomeIcon icon={faSpinner} spin />

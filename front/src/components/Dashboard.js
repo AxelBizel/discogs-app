@@ -7,28 +7,38 @@ import { getYears } from "../actions";
 import "../App.css";
 import Loader from "./Loader";
 import DashboardYearsRelease from "./DashboardYearsRelease";
+import DashboardYearsD3 from "./DashBoardYearsD3";
+import DashboardYearsChartJs from "./DashboardYearsChartJs";
 
-
-const Dashboard = (props) =>  {
-
-  const { dispatch, years } = props
+const Dashboard = props => {
+  const { dispatch, years } = props;
 
   useEffect(() => {
     dispatch(getYears());
-  }, []);
+  }, [dispatch]);
 
   return (
-      <Container>
-        <Header />
-        <Row>
-          <Col>
-            <Navigation />
-          </Col>
-        </Row>
-        <Row>
-            {years === null ? (<Loader />) :( <DashboardYearsRelease years={years.years}/>)}
-        </Row>
-      </Container>
+    <Container>
+      <Header />
+      <Row>
+        <Col>
+          <Navigation />
+        </Col>
+      </Row>
+      {/* <Row>
+        {years === null ? (
+          <Loader />
+        ) : (
+          <DashboardYearsRelease years={years.years} />
+        )}
+      </Row>
+      <Row>
+        {years === null ? <Loader /> : <DashboardYearsD3 years={years.years} />}
+      </Row> */}
+      <Row>
+        {years === null ? <Loader /> : <DashboardYearsChartJs years={years.years} />}
+      </Row>
+    </Container>
   );
 };
 
@@ -37,7 +47,7 @@ function mstp(state) {
   return {
     years: state.years
   };
-  };
+}
 
 // function mdtp(dispatch) {
 //     return {
