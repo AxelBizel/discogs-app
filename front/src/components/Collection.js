@@ -15,7 +15,7 @@ function Collection(props) {
 
   useEffect(() => {
     dispatch(getReleases());
-  }, []);
+  }, [dispatch]);
 
   return (
     <Container>

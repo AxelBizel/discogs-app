@@ -9,7 +9,7 @@ function CollectionFilter(props) {
 
   useEffect(() => {
     filterReleases(filter);
-  }, [filter]);
+  }, [filter, filterReleases]);
 
   return (
     <Input

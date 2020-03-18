@@ -3,18 +3,18 @@ import Header from "./Header";
 import Navigation from "./Navigation.js";
 import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
-import { getYears } from "../actions";
+import { getYears, getYearsAdded } from "../actions";
 import "../App.css";
 import Loader from "./Loader";
-import DashboardYearsRelease from "./DashboardYearsRelease";
-import DashboardYearsD3 from "./DashBoardYearsD3";
 import DashboardYearsChartJs from "./DashboardYearsChartJs";
+import DashboardYearsAdded from "./DashboardYearsAdded";
 
 const Dashboard = props => {
-  const { dispatch, years } = props;
+  const { dispatch, years, yearsAdded } = props;
 
   useEffect(() => {
     dispatch(getYears());
+    dispatch(getYearsAdded());
   }, [dispatch]);
 
   return (
@@ -25,36 +25,31 @@ const Dashboard = props => {
           <Navigation />
         </Col>
       </Row>
-      {/* <Row>
+   
+      <Row>
         {years === null ? (
           <Loader />
         ) : (
-          <DashboardYearsRelease years={years.years} />
+          <DashboardYearsChartJs years={years.years} />
         )}
       </Row>
+
       <Row>
-        {years === null ? <Loader /> : <DashboardYearsD3 years={years.years} />}
-      </Row> */}
-      <Row>
-        {years === null ? <Loader /> : <DashboardYearsChartJs years={years.years} />}
+        {yearsAdded === null ? (
+          <Loader />
+        ) : (
+          <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
+        )}
       </Row>
     </Container>
   );
 };
 
 function mstp(state) {
-  console.log("Dashboard mstp", state.years);
   return {
-    years: state.years
+    years: state.years,
+    yearsAdded:state.yearsAdded
   };
 }
-
-// function mdtp(dispatch) {
-//     return {
-//       getYears: () => {
-//         dispatch(getYears());
-//       }
-//     };
-//   };
 
 export default connect(mstp)(Dashboard);

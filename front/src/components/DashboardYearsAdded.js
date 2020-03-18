@@ -3,12 +3,27 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { Line } from "react-chartjs-2";
 
-const DashboardYearsChartJs = years => {
-  let yearsArray = years.years.map(y => {
-    return y ? y : 0;
-  });
-  let firstYear = yearsArray.findIndex((y, i) => y > 0 && i > 0);
-  let graphLabels = yearsArray.map((y, i) => i).slice(firstYear);
+const DashboardYearsAdded = yearsAdded => {
+
+    let yearsAddedArray = yearsAdded.yearsAdded.sort()
+    console.log(yearsAddedArray)
+    let graphLabels = []
+    let graphValues = []
+    let parsedYearsAdded = []
+
+    for (let i = 0 ; i < yearsAddedArray.length; i++){
+        graphLabels.push(yearsAddedArray[i]);
+        graphValues.push(i)
+    }
+
+    console.log(parsedYearsAdded)
+
+
+    //   let yearsArray = years.years.map(y => {
+//     return y ? y : 0;
+//   });
+//   let firstYear = yearsArray.findIndex((y, i) => y > 0 && i > 0);
+//   let graphLabels = yearsArray.map((y, i) => i).slice(firstYear);
 
   const data = {
     labels: graphLabels,
@@ -31,7 +46,7 @@ const DashboardYearsChartJs = years => {
         pointHoverBorderWidth: 2,
         pointRadius: 1,
         pointHitRadius: 10,
-        data: yearsArray.slice(firstYear),
+        data: graphValues,
         label: "Nombre de disques par année de sortie"
       }
     ]
@@ -39,9 +54,9 @@ const DashboardYearsChartJs = years => {
 
   return (
     <div style={{ width: "100%" }}>
-      {yearsArray ? (
+      {yearsAdded ? (
         <div>
-          <h3>Répartition par années de sortie</h3>
+          <h3>Répartition par date d'ajout dans la collection</h3>
           <Line data={data} />
         </div>
       ) : (
@@ -50,4 +65,4 @@ const DashboardYearsChartJs = years => {
     </div>
   );
 };
-export default DashboardYearsChartJs;
+export default DashboardYearsAdded;

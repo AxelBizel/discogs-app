@@ -16,7 +16,7 @@ const CollectionSort = props => {
 
   useEffect(() => {
     sortReleases(sortBy);
-  }, [sortBy]);
+  }, [sortBy, sortReleases]);
 
   return (
     <ButtonDropdown isOpen={dropdownOpen} toggle={toggle} style={{ margin: "1vh 1vw" }}>

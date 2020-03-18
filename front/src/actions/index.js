@@ -22,6 +22,17 @@ export const getYears = () => {
   };
 };
 
+export const getYearsAdded = () => {
+  return dispatch => {
+    axios.get("http://localhost:5000/api/yearsAdded/").then(res => {
+      dispatch({
+        type: "GET_YEARSADDED",
+        payload: res.data
+      });
+    });
+  };
+};
+
 
 export const sortReleases = sortBy => {
   console.log("action sort by", sortBy);

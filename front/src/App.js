@@ -8,7 +8,14 @@ import Login from "./components/Login";
 function App(props) {
   return (
     <div className="App">
-      <Login />
+      <Header />
+      <Container>
+        <Row>
+          <Col>
+            <Navigation />
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 }

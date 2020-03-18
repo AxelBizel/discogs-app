@@ -8,23 +8,24 @@ import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import rootReducer from "./reducers";
 import thunk from "redux-thunk";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Collection from "./components/Collection";
 import Dashboard from "./components/Dashboard";
 import Explore from "./components/Explore";
+import Login from "./components/Login";
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-            <Switch>
-                <Route exact path="/" component={App} />
-                <Route path="/collection" component={Collection} />
-                <Route path="/dashboard" component={Dashboard} />
-                <Route path="/explore" component={Explore} />
-            </Switch>
-        </Router>
+      <Switch>
+        <Route exact path="/" component={Login} />
+        <Route path="/collection" component={Collection} />
+        <Route path="/dashboard" component={Dashboard} />
+        <Route path="/explore" component={Explore} />
+      </Switch>
+    </Router>
   </Provider>,
   document.getElementById("root")
 );
