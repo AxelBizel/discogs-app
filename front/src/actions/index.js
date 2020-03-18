@@ -34,6 +34,29 @@ export const getYearsAdded = () => {
 };
 
 
+export const getGenres = () => {
+  return dispatch => {
+    axios.get("http://localhost:5000/api/genres/").then(res => {
+      dispatch({
+        type: "GET_GENRES",
+        payload: res.data
+      });
+    });
+  };
+};
+
+export const getStyles = () => {
+  return dispatch => {
+    axios.get("http://localhost:5000/api/styles/").then(res => {
+      dispatch({
+        type: "GET_STYLES",
+        payload: res.data
+      });
+    });
+  };
+};
+
+
 export const sortReleases = sortBy => {
   console.log("action sort by", sortBy);
   return {

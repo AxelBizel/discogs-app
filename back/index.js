@@ -9,10 +9,11 @@ const cors = require('cors')
 //Variables
 let items = []
 let yearsRelease = []
+let parsedYears = []
 let yearsAdded = []
 let genres = []
+let parsedGenres = []
 let styles = []
-let parsedYears = []
 let ls = require('local-storage')
 let firstYear = ''
 
@@ -112,6 +113,12 @@ col.getReleases('iktor', 0, { page: 1, per_page: 10000 }, function (err, data) {
       if (i in parsedYears) parsedYears[i] += 1
       else parsedYears[i] = 1
     })
+    //tri des genres
+    genres.forEach(i => {
+      if (i in parsedGenres) parsedGenres[i] += 1
+      else parsedGenres[i] = 1
+    })
+
   }
 })
 
@@ -138,11 +145,12 @@ app.get('/api/yearsAdded', yearsAdded, (req, res) => {
 
 //Route permettant de récupérer les styles
 app.get('/api/styles', styles, (req, res) => {
-  res.json(styles)
+  res.json(styles);
+  console.log(styles)
 })
 
 //Route permettant de récupérer les genres
-app.get('/api/genres', genres, (req, res) => {
+app.get('/api/genres', parsedGenres, (req, res) => {
   res.json(genres)
 })
 

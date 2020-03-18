@@ -3,18 +3,22 @@ import Header from "./Header";
 import Navigation from "./Navigation.js";
 import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
-import { getYears, getYearsAdded } from "../actions";
+import { getYears, getYearsAdded, getGenres, getStyles } from "../actions";
 import "../App.css";
 import Loader from "./Loader";
-import DashboardYearsChartJs from "./DashboardYearsChartJs";
+import DashboardYearsChartJs from "./DashboardYearsRelease";
 import DashboardYearsAdded from "./DashboardYearsAdded";
+import DashboardGenres from "./DashboardGenres";
+import DashboardStyles from "./DashboardStyles";
 
 const Dashboard = props => {
-  const { dispatch, years, yearsAdded } = props;
+  const { dispatch, years, yearsAdded, genres, styles } = props;
 
   useEffect(() => {
     dispatch(getYears());
     dispatch(getYearsAdded());
+    dispatch(getGenres());
+    dispatch(getStyles());
   }, [dispatch]);
 
   return (
@@ -41,6 +45,24 @@ const Dashboard = props => {
           <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
         )}
       </Row>
+
+      <Row>
+        {genres === null ? (
+          <Loader />
+        ) : (
+          <DashboardGenres genres={genres.genres} />
+        )}
+      </Row>
+
+      <Row>
+        {styles === null ? (
+          <Loader />
+        ) : (
+          <DashboardStyles
+           styles={styles.styles} />
+        )}
+      </Row>
+      
     </Container>
   );
 };
@@ -48,7 +70,9 @@ const Dashboard = props => {
 function mstp(state) {
   return {
     years: state.years,
-    yearsAdded:state.yearsAdded
+    yearsAdded:state.yearsAdded,
+    genres:state.genres,
+    styles:state.styles
   };
 }
 

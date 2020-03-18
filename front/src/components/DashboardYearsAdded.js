@@ -6,16 +6,13 @@ import { Line } from 'react-chartjs-2'
 const DashboardYearsAdded = yearsAdded => {
   let yearsAddedArray = yearsAdded.yearsAdded.sort()
   console.log(yearsAddedArray[0], typeof yearsAddedArray[0])
-  let graphLabels = [
-    //   new Date(yearsAddedArray[0].getYear())
-    ]
+  let graphLabels = [new Date(yearsAddedArray[0])]
   let graphValues = [0]
 
   for (let i = 0; i < yearsAddedArray.length; i++) {
     graphLabels.push(yearsAddedArray[i])
     graphValues.push(i)
   }
-
 
   //   let yearsArray = years.years.map(y => {
   //     return y ? y : 0;
@@ -45,7 +42,7 @@ const DashboardYearsAdded = yearsAdded => {
         pointRadius: 1,
         pointHitRadius: 10,
         data: graphValues,
-        label: "Nombre de disques dans la collection"
+        label: 'Nombre de disques dans la collection'
       }
     ]
   }
@@ -60,11 +57,13 @@ const DashboardYearsAdded = yearsAdded => {
           }
         }
       ],
-      yAxes: [{
-        ticks: {
-            beginsAtZero: true,
+      yAxes: [
+        {
+          ticks: {
+            beginsAtZero: true
+          }
         }
-    }]
+      ]
     }
   }
 
