@@ -42,7 +42,7 @@ const Dashboard = props => {
         <Col>
           <h3 style={{ textAlign: 'center', marginTop: '5vh' }}>
             You got{' '}
-            <span style={{fontSize:'2.5rem'}}>
+            <span style={{ fontSize: '2.5rem' }}>
               <CountUp end={collection === null ? 0 : collection.length} />
             </span>{' '}
             releases in your collection
@@ -56,7 +56,7 @@ const Dashboard = props => {
           ) : (
             <div className='chartContainer'>
               <h4 className='titleChart'>Repartition by release year</h4>
-              <p>In numbers of release</p>
+              <p>In number of releases</p>
               <DashboardYearsChartJs years={years.years} />
             </div>
           )}
@@ -66,7 +66,7 @@ const Dashboard = props => {
           ) : (
             <div className='chartContainer'>
               <h4 className='titleChart'>Repartition by add date</h4>
-              <p>In cumulative numbers of release</p>
+              <p>In cumulative number of releases</p>
               <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
             </div>
           )}
@@ -76,7 +76,7 @@ const Dashboard = props => {
           ) : (
             <div className='chartContainer'>
               <h4 className='titleChart'>Repartition by genres</h4>
-              <p>In numbers of release</p>
+              <p>In number of releases</p>
               <DashboardGenres genres={genres.genres} />
             </div>
           )}
@@ -87,8 +87,8 @@ const Dashboard = props => {
             <Loader />
           ) : (
             <div className='chartContainer'>
-              <h4 className='titleChart'>Répartition par styles</h4>
-              <p>En nombre de disques</p>
+              <h4 className='titleChart'>Repartition by styles</h4>
+              <p>In number of releases</p>
               <DashboardStyles styles={styles.styles} />
             </div>
           )}

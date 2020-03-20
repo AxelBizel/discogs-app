@@ -1,43 +1,75 @@
-import React from "react";
-import { Container, Row, Col, Spinner } from "reactstrap";
-import "../App.css";
+import React from 'react'
+import { Container, Row, Col, Spinner } from 'reactstrap'
+import '../App.css'
 
-function Loader(props) {
+function Loader (props) {
   return (
-    <div className="App">
+    <div className='App'>
       <Container>
-        <Row style={{ display: "flex", justifyContent: "space-evenly" }}>
-          <Col>
+        <Row>
+          <Col xs='6' lg='3'>
             <Spinner
-              type="grow"
-              color="dark"
-              style={{ margin: "5vh ", width: "10vw", height: "10vw" }}
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
             />
+          </Col>
+          <Col xs='6' lg='3'>
             <Spinner
-              type="grow"
-              color="dark"
-              style={{ margin: "5vh ", width: "10vw", height: "10vw" }}
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
             />
+          </Col>
+          <Col xs='6' lg='3'>
             <Spinner
-              type="grow"
-              color="dark"
-              style={{ margin: "5vh ", width: "10vw", height: "10vw" }}
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
             />
+          </Col>
+          <Col xs='6' lg='3'>
             <Spinner
-              type="grow"
-              color="dark"
-              style={{ margin: "5vh ", width: "10vw", height: "10vw" }}
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
             />
+          </Col>
+        </Row>
+
+        <Row>
+          <Col xs='6' lg='3'>
             <Spinner
-              type="grow"
-              color="dark"
-              style={{ margin: "5vh 4vw", width: "10vw", height: "10vw" }}
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
+            />
+          </Col>
+          <Col xs='6' lg='3'>
+            <Spinner
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
+            />
+          </Col>
+          <Col xs='6' lg='3'>
+            <Spinner
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
+            />
+          </Col>
+          <Col xs='6' lg='3'>
+            <Spinner
+              type='border'
+              color='dark'
+              style={{ margin: '5vh ', width: '10vw', height: '10vw' }}
             />
           </Col>
         </Row>
       </Container>
     </div>
-  );
+  )
 }
 
-export default Loader;
+export default Loader
