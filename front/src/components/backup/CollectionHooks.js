@@ -92,7 +92,6 @@ function CollectionHooks(props) {
 }
 
 function mstp(state) {
-  console.log(state.collection);
   return { collection: state.collection, filter: state.filter };
 }
 

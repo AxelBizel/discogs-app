@@ -13,6 +13,9 @@ import Collection from "./components/Collection";
 import Dashboard from "./components/Dashboard";
 import Explore from "./components/Explore";
 import Login from "./components/Login";
+import AOS from "aos";
+
+AOS.init();
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 

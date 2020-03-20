@@ -5,7 +5,6 @@ import { Line } from 'react-chartjs-2'
 
 const DashboardYearsAdded = yearsAdded => {
   let yearsAddedArray = yearsAdded.yearsAdded.sort()
-  console.log(yearsAddedArray[0], typeof yearsAddedArray[0])
   let graphLabels = [new Date(yearsAddedArray[0])]
   let graphValues = [0]
 
@@ -22,6 +21,7 @@ const DashboardYearsAdded = yearsAdded => {
 
   const data = {
     labels: graphLabels,
+
     datasets: [
       {
         fill: true,
@@ -68,16 +68,19 @@ const DashboardYearsAdded = yearsAdded => {
   }
 
   return (
-    <div style={{ width: '100%' }}>
+    <>
       {yearsAdded ? (
-        <div>
-          <h3>Répartition par date d'ajout dans la collection</h3>
-          <Line data={data} legend={{ display: false }} options={options} />
-        </div>
+        <Line
+          data={data}
+          width={100}
+          height={100}
+          legend={{ display: false }}
+          options={options}
+        />
       ) : (
         <FontAwesomeIcon icon={faSpinner} spin />
       )}
-    </div>
+    </>
   )
 }
 export default DashboardYearsAdded

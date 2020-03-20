@@ -58,7 +58,6 @@ export const getStyles = () => {
 
 
 export const sortReleases = sortBy => {
-  console.log("action sort by", sortBy);
   return {
     type: "SORT_COLLECTION",
     payload: sortBy
@@ -66,7 +65,6 @@ export const sortReleases = sortBy => {
 };
 
 export const filterReleases = filterBy => {
-  console.log("action filter by", filterBy);
   return {
     type: "FILTER_COLLECTION",
     payload: filterBy

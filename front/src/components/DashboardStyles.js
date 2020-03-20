@@ -11,8 +11,6 @@ const DashboardStyles = styles => {
 
   let graphLabels = []
   let graphValues = []
-  console.log('STYLES', styles.styles.join(',').split(','))
-  console.log('STYLESARRAY', stylesArray)
 
   for (let i = 0; i < stylesArray.length; i++) {
     if (graphLabels.includes(stylesArray[i])) {
@@ -23,14 +21,16 @@ const DashboardStyles = styles => {
     }
   }
 
-  console.log('GL', graphLabels)
-  console.log('GV', graphValues)
+  if (graphLabels[0].length === 0) {
+    graphLabels = graphLabels.slice(1)
+    graphValues = graphValues.slice(1)
+  }
 
   const data = {
     labels: graphLabels,
     datasets: [
       {
-        label: 'My First dataset',
+        label: 'Nombre de disques dans la collection',
         backgroundColor: 'rgba(255,99,132,0.2)',
         borderColor: 'rgba(255,99,132,1)',
         borderWidth: 1,
@@ -42,16 +42,14 @@ const DashboardStyles = styles => {
   }
 
   return (
-    <div style={{ width: '100%' }}>
+    <>
+      {' '}
       {styles ? (
-        <div>
-          <h3>Répartition par styles</h3>
-          <HorizontalBar data={data} />
-        </div>
+        <HorizontalBar data={data} width={100} height={360} />
       ) : (
         <FontAwesomeIcon icon={faSpinner} spin />
       )}
-    </div>
+    </>
   )
 }
 export default DashboardStyles

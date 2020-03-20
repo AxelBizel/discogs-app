@@ -11,7 +11,6 @@ import { getReleases } from "../actions";
 
 function Collection(props) {
   const { collection, sortBy, filterBy, dispatch } = props;
-  console.log("props Collection", collection, sortBy, filterBy);
 
   useEffect(() => {
     dispatch(getReleases());
@@ -25,11 +24,11 @@ function Collection(props) {
           <Navigation />
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Col>
           <CollectionCounter collection={collection} />
         </Col>
-      </Row>
+      </Row> */}
       <Row style={{ margin: "5vh 0" }}>
         <Col xs="12" md="9">
           <CollectionFilter />
@@ -50,7 +49,6 @@ function Collection(props) {
 }
 
 function mstp(state) {
-  console.log("App mstp", state);
   return {
     collection: state.collection,
     sortBy: state.sortBy,

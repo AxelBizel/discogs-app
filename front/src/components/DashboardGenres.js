@@ -1,13 +1,13 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
-import { HorizontalBar } from 'react-chartjs-2'
+import { Bar, HorizontalBar, Pie, Polar, Radar } from 'react-chartjs-2'
 
 const DashboardGenres = genres => {
   let genresArray = genres.genres
     .map(g => {
       for (let i = 0; i < g.length; i++) {
-        if (g[i].includes('Folk')) g[i] = 'Folk/World/Country'
+        if (g[i].includes('Folk')) g[i] = 'Folk/World'
       }
       return g
     })
@@ -17,22 +17,19 @@ const DashboardGenres = genres => {
 
   let graphLabels = []
   let graphValues = []
- 
 
   for (let i = 0; i < genresArray.length; i++) {
     if (graphLabels.includes(genresArray[i])) {
-        graphValues[graphLabels.indexOf(genresArray[i])] +=1;
+      graphValues[graphLabels.indexOf(genresArray[i])] += 1
     } else {
-      graphLabels.push(genresArray[i]);
-      graphValues.push(1);
+      graphLabels.push(genresArray[i])
+      graphValues.push(1)
     }
-  };
-
-  console.log('GL', graphLabels)
-  console.log('GV', graphValues)
+  }
 
   const data = {
     labels: graphLabels,
+    aspectRatio: 1,
     datasets: [
       {
         label: 'My First dataset',
@@ -44,19 +41,16 @@ const DashboardGenres = genres => {
         data: graphValues
       }
     ]
-  };
+  }
 
   return (
-    <div style={{ width: '100%' }}>
+    <>
       {genres ? (
-        <div>
-          <h3>Répartition par genres</h3>
-          <HorizontalBar data={data} />
-        </div>
+        <Radar data={data} width={100} height={100} />
       ) : (
         <FontAwesomeIcon icon={faSpinner} spin />
       )}
-    </div>
+    </>
   )
 }
 export default DashboardGenres
