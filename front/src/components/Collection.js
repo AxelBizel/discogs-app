@@ -18,12 +18,7 @@ function Collection(props) {
 
   return (
     <Container>
-      <Header />
-      <Row>
-        <Col>
-          <Navigation />
-        </Col>
-      </Row>
+      
       {/* <Row>
         <Col>
           <CollectionCounter collection={collection} />

@@ -1,61 +1,53 @@
-import React, { useEffect } from 'react'
-import Header from './Header'
-import Navigation from './Navigation.js'
-import { Container, Row, Col } from 'reactstrap'
-import { connect } from 'react-redux'
+import React, { useEffect } from "react";
+import Header from "./Header";
+import Navigation from "./Navigation.js";
+import { Container, Row, Col } from "reactstrap";
+import { connect } from "react-redux";
 import {
   getYears,
   getYearsAdded,
   getGenres,
   getStyles,
   getReleases
-} from '../actions'
-import '../App.css'
-import Loader from './Loader'
-import DashboardYearsChartJs from './DashboardYearsRelease'
-import DashboardYearsAdded from './DashboardYearsAdded'
-import DashboardGenres from './DashboardGenres'
-import DashboardStyles from './DashboardStyles'
-import CountUp from 'react-countup'
+} from "../actions";
+import Loader from "./Loader";
+import DashboardYearsChartJs from "./DashboardYearsRelease";
+import DashboardYearsAdded from "./DashboardYearsAdded";
+import DashboardGenres from "./DashboardGenres";
+import DashboardStyles from "./DashboardStyles";
+import CountUp from "react-countup";
 
 const Dashboard = props => {
-  const { dispatch, years, yearsAdded, genres, styles, collection } = props
+  const { dispatch, years, yearsAdded, genres, styles, collection } = props;
 
   useEffect(() => {
-    dispatch(getYears())
-    dispatch(getYearsAdded())
-    dispatch(getGenres())
-    dispatch(getStyles())
-    dispatch(getReleases())
-  }, [dispatch])
+    dispatch(getYears());
+    dispatch(getYearsAdded());
+    dispatch(getGenres());
+    dispatch(getStyles());
+    dispatch(getReleases());
+  }, [dispatch]);
 
   return (
     <Container>
-      <Header />
       <Row>
         <Col>
-          <Navigation />
-        </Col>
-      </Row>
-
-      <Row>
-        <Col>
-          <h3 style={{ textAlign: 'center', marginTop: '5vh' }}>
-            You got{' '}
-            <span style={{ fontSize: '2.5rem' }}>
+          <h3 style={{ textAlign: "center", marginTop: "5vh" }}>
+            You got{" "}
+            <span style={{ fontSize: "2.5rem" }}>
               <CountUp end={collection === null ? 0 : collection.length} />
-            </span>{' '}
+            </span>{" "}
             releases in your collection
           </h3>
         </Col>
       </Row>
       <Row>
-        <Col xs='12' md='6' data-aos='fade-right' data-aos-duration='1000'>
+        <Col xs="12" md="6" data-aos="fade-right" data-aos-duration="1000">
           {years === null ? (
             <Loader />
           ) : (
-            <div className='chartContainer'>
-              <h4 className='titleChart'>Repartition by release year</h4>
+            <div className="chartContainer">
+              <h4 className="titleChart">Repartition by release year</h4>
               <p>In number of releases</p>
               <DashboardYearsChartJs years={years.years} />
             </div>
@@ -64,8 +56,8 @@ const Dashboard = props => {
           {yearsAdded === null ? (
             <Loader />
           ) : (
-            <div className='chartContainer'>
-              <h4 className='titleChart'>Repartition by add date</h4>
+            <div className="chartContainer">
+              <h4 className="titleChart">Repartition by add date</h4>
               <p>In cumulative number of releases</p>
               <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
             </div>
@@ -74,20 +66,26 @@ const Dashboard = props => {
           {genres === null ? (
             <Loader />
           ) : (
-            <div className='chartContainer'>
-              <h4 className='titleChart'>Repartition by genres</h4>
-              <p>In number of releases</p>
+            <div className="chartContainer">
+              <h4 className="titleChart">Repartition by genres</h4>
+              <p>
+                In number of releases{" "}
+                <em>
+                  (only genres with at least 5% of collection's items are
+                  represented)
+                </em>
+              </p>
               <DashboardGenres genres={genres.genres} />
             </div>
           )}
         </Col>
 
-        <Col xs='12' md='6' data-aos='fade-left' data-aos-duration='1000'>
+        <Col xs="12" md="6" data-aos="fade-left" data-aos-duration="1000">
           {styles === null ? (
             <Loader />
           ) : (
-            <div className='chartContainer'>
-              <h4 className='titleChart'>Repartition by styles</h4>
+            <div className="chartContainer">
+              <h4 className="titleChart">Repartition by styles</h4>
               <p>In number of releases</p>
               <DashboardStyles styles={styles.styles} />
             </div>
@@ -95,17 +93,17 @@ const Dashboard = props => {
         </Col>
       </Row>
     </Container>
-  )
-}
+  );
+};
 
-function mstp (state) {
+function mstp(state) {
   return {
     years: state.years,
     yearsAdded: state.yearsAdded,
     genres: state.genres,
     styles: state.styles,
     collection: state.collection.collection
-  }
+  };
 }
 
-export default connect(mstp)(Dashboard)
+export default connect(mstp)(Dashboard);

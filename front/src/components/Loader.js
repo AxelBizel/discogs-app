@@ -1,6 +1,5 @@
 import React from 'react'
 import { Container, Row, Col, Spinner } from 'reactstrap'
-import '../App.css'
 
 function Loader (props) {
   return (

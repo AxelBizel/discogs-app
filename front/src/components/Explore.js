@@ -1,25 +1,18 @@
-import React from "react";
-import Header from "./Header";
-import Navigation from "./Navigation.js";
-import { Container, Row, Col } from "reactstrap";
-import "../App.css";
+import React from 'react'
+import Header from './Header'
+import Navigation from './Navigation.js'
+import { Container, Row, Col } from 'reactstrap'
 
-function Explore(props) {
+function Explore (props) {
   return (
-    <div className="App">
+    <div>
       <Container>
-        <Header />
         <Row>
-          <Col>
-            <Navigation />
-          </Col>
-        </Row>
-        <Row>
-            <h1>Explore</h1>
+          <h1>Explore</h1>
         </Row>
       </Container>
     </div>
-  );
+  )
 }
 
-export default Explore;
+export default Explore
