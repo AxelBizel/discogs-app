@@ -17,29 +17,30 @@ function Collection(props) {
   }, [dispatch]);
 
   return (
-    <Container>
-      
-      {/* <Row>
+    <div id="Collection">
+      <Container>
+        {/* <Row>
         <Col>
-          <CollectionCounter collection={collection} />
+        <CollectionCounter collection={collection} />
         </Col>
       </Row> */}
-      <Row style={{ margin: "5vh 0" }}>
-        <Col xs="12" md="9">
-          <CollectionFilter />
-        </Col>
-        <Col xs="12" md="3">
-          <CollectionSort />
-        </Col>
-      </Row>
-      <Row>
-        <CollectionDisplay
-          collection={collection}
-          sortBy={sortBy}
-          filterBy={filterBy}
-        />
-      </Row>
-    </Container>
+        <Row style={{ padding: "5vh 0" }}>
+          <Col xs="12" md="9">
+            <CollectionFilter />
+          </Col>
+          <Col xs="12" md="3">
+            <CollectionSort />
+          </Col>
+        </Row>
+        <Row>
+          <CollectionDisplay
+            collection={collection}
+            sortBy={sortBy}
+            filterBy={filterBy}
+          />
+        </Row>
+      </Container>
+    </div>
   );
 }
 

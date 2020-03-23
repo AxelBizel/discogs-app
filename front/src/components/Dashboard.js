@@ -1,6 +1,4 @@
 import React, { useEffect } from "react";
-import Header from "./Header";
-import Navigation from "./Navigation.js";
 import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import {
@@ -29,16 +27,20 @@ const Dashboard = props => {
   }, [dispatch]);
 
   return (
+    <div id="Dashboard">
     <Container>
+
       <Row>
         <Col>
-          <h3 style={{ textAlign: "center", marginTop: "5vh" }}>
+      <div className="counterContainer">
+          <h3 className="centered"> 
             You got{" "}
-            <span style={{ fontSize: "2.5rem" }}>
+            <span className="countup">
               <CountUp end={collection === null ? 0 : collection.length} />
             </span>{" "}
             releases in your collection
           </h3>
+      </div>
         </Col>
       </Row>
       <Row>
@@ -56,7 +58,7 @@ const Dashboard = props => {
           {yearsAdded === null ? (
             <Loader />
           ) : (
-            <div className="chartContainer">
+            <div className="chartContainer" data-aos="fade-up" data-aos-duration="1000">
               <h4 className="titleChart">Repartition by add date</h4>
               <p>In cumulative number of releases</p>
               <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
@@ -66,16 +68,18 @@ const Dashboard = props => {
           {genres === null ? (
             <Loader />
           ) : (
-            <div className="chartContainer">
+            <div className="chartContainer" data-aos="fade-up" data-aos-duration="1000">
               <h4 className="titleChart">Repartition by genres</h4>
               <p>
-                In number of releases{" "}
-                <em>
-                  (only genres with at least 5% of collection's items are
-                  represented)
-                </em>
+                In number of releases
               </p>
-              <DashboardGenres genres={genres.genres} />
+              <DashboardGenres
+                genres={genres.genres}
+              />
+              <p><em><em>
+                  Note : only genres with at least 5% of collection's items are
+                  represented
+                </em></em></p>
             </div>
           )}
         </Col>
@@ -93,6 +97,7 @@ const Dashboard = props => {
         </Col>
       </Row>
     </Container>
+    </div>
   );
 };
 

@@ -89,7 +89,7 @@ app.get("/identity", function(req, res) {
 // ReadyBeast
 //Récupération collection
 const col = new Discogs(accessData).user().collection();
-col.getReleases("ReadyBeast", 0, { page: 1, per_page: 200 }, function(err, data) {
+col.getReleases("iktor", 0, { page: 1, per_page: 200 }, function(err, data) {
   if (err) {
     console.log(err);
     res.status(500).send("Error 500");

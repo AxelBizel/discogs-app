@@ -27,19 +27,16 @@ const DashboardGenres = genres => {
     }
   }
   const reducer = (accumulator, currentValue) => accumulator + currentValue;
-  let sum = graphValues.reduce(reducer)
-  let graphLabelsSliced = []
-  let graphValuesSliced = []
+  let sum = graphValues.reduce(reducer);
+  let graphLabelsSliced = [];
+  let graphValuesSliced = [];
 
-  
-    for (let i = 0; i < graphValues.length; i++) {
-    if ((graphValues[i]/sum) > 0.05) {
-      graphLabelsSliced.push(graphLabels[i])
+  for (let i = 0; i < graphValues.length; i++) {
+    if (graphValues[i] / sum > 0.05) {
+      graphLabelsSliced.push(graphLabels[i]);
       graphValuesSliced.push(graphValues[i]);
     }
   }
-console.log(sum)
-  console.log(graphLabelsSliced)
 
   const data = {
     labels: graphLabelsSliced,
@@ -47,15 +44,31 @@ console.log(sum)
     datasets: [
       {
         label: "Nombre de disques dans la collection",
-        backgroundColor: "rgba(255,99,132,0.2)",
-        borderColor: "rgba(255,99,132,1)",
+        backgroundColor: "rgba(75,192,192,0.4)",
+        borderColor: "rgba(75,192,192,1)",
         borderWidth: 1,
-        hoverBackgroundColor: "rgba(255,99,132,0.4)",
-        hoverBorderColor: "rgba(255,99,132,1)",
+        pointBorderColor: "#fff",
+
+        hoverBackgroundColor: "rgba(75,192,192,0.6)",
+        hoverBorderColor: "rgba(75,192,192,1)",
         data: graphValuesSliced
       }
     ]
   };
+
+  // const options = {
+  //   scale: {
+  //     angleLines: {
+  //       display: true
+  //     },
+  //     ticks: {
+  //       display: true
+  //     }
+  //   },
+  //   label:{
+  //     display:false
+  //   }
+  // };
 
   return (
     <>

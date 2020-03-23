@@ -1,9 +1,12 @@
 import React from "react";
 import { Row, Col, Container } from "reactstrap";
 import logoDiscogs from "../logoDiscogs.svg";
+import Navigation from "./Navigation";
 
 function Header() {
   return (
+    <div id="Header">
+
     <Container>
       <Row>
         <Col style={{ margin: "5vh 1vw" }}>
@@ -14,7 +17,9 @@ function Header() {
           </h1>
         </Col>
       </Row>
+      <Navigation />
     </Container>
+    </div>
   );
 }
 

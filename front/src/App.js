@@ -1,7 +1,5 @@
 import React from "react";
 import Header from "./components/Header";
-import Navigation from "./components/Navigation.js";
-import { Container, Row, Col } from "reactstrap";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Collection from "./components/Collection";
 import Dashboard from "./components/Dashboard";
@@ -14,13 +12,7 @@ function App(props) {
   return (
     <div className="App">
       <Header />
-      <Container>
-        <Row>
-          <Col>
-            <Navigation />
-          </Col>
-        </Row>
-      </Container>
+    
 
       <Router>
       <Switch>
