@@ -8,7 +8,12 @@ const cors = require("cors");
 const axios = require("axios");
 var db = new Discogs().database();
 
+
+//Utilisateur
+const userName = "ReadyBeast";
+
 //Variables
+let collection = [];
 let items = [];
 let yearsRelease = [];
 let parsedYears = [];
@@ -86,42 +91,32 @@ app.get("/identity", function(req, res) {
   });
 });
 
-// ReadyBeast
 //Récupération collection
 const col = new Discogs(accessData).user().collection();
-col.getReleases("iktor", 0, { page: 1, per_page: 200 }, function(err, data) {
+col.getReleases(userName, 0, { page: 1, per_page: 50 }, function(err, data) {
   if (err) {
     console.log(err);
-    res.status(500).send("Error 500");
+    // res.status(500).send("Error 500");
   } else {
-    const collection = data.releases;
+    let pages = data.pagination.pages;
+    console.log("PAGES", pages);
 
-    for (let i = 0; i < collection.length; i++) {
-      //recupération items
-      items.push(collection[i].basic_information);
-      //récupération années de sortie
-      yearsRelease.push(items[i].year);
-      //récupération années d'ajout
-      yearsAdded.push(collection[i].date_added);
-      //récupération des genres
-      genres.push(items[i].genres);
-      //récupération des styles
-      styles.push(items[i].styles);
+    for (let i = 1; i <= pages; i++) {
+      col.getReleases(userName, 0, { page: `${i}`, per_page: 50 }, function(
+        err,
+        data
+      ) {
+        if (err) {
+          console.log(err);
+          // res.status(500).send("Error 500");
+        } else {
+          Array.prototype.push.apply(collection, data.releases);
+          console.log("COLLECTION LENGTH", collection.length);
+        }
+      });
     }
-
-    //tri des années de sortie
-    firstYear = Math.min(...yearsRelease.filter(i => i > 0));
-
-    yearsRelease.forEach(i => {
-      if (i in parsedYears) parsedYears[i] += 1;
-      else parsedYears[i] = 1;
-    });
-    //tri des genres
-    genres.forEach(i => {
-      if (i in parsedGenres) parsedGenres[i] += 1;
-      else parsedGenres[i] = 1;
-    });
   }
+  return collection;
 });
 
 //Récupération infos complémentaires
@@ -131,40 +126,79 @@ col.getReleases("iktor", 0, { page: 1, per_page: 200 }, function(err, data) {
 // })};
 
 //Route permettant de récupérer l'ensemble des items de la collection
-app.get("/api/collection", items, (req, res) => {
-  console.log("items length", items.length);
-  console.log("item[0]", items[0]);
+app.get("/api/collection", collection, (req, res) => {
+  if (items.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      items.push(collection[i].basic_information);
+    }
+  }
+  // console.log("items length", items.length);
+  // console.log("item[0]", items[0]);
   // for (let i = 0; i < items.length; i++) {
   //   db.getRelease(items[i].id, function(err, data) {
   //     console.log("TEST", data);
   //   });
   // }
+  console.log("COUCOU COLLEC");
   res.json(items);
 });
 
 //Route permettant de récupérer les années de sortie triées
-app.get("/api/years", parsedYears, (req, res) => {
-  console.log("parsedYearslength", parsedYears.length);
+app.get("/api/years", collection, (req, res) => {
+  if (yearsRelease.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      yearsRelease.push(collection[i].basic_information.year);
+    }
+  }
+
+  yearsRelease.forEach(i => {
+    if (i in parsedYears) parsedYears[i] += 1;
+    else parsedYears[i] = 1;
+  });
+
   res.json(parsedYears);
 });
 
 //Route permettant de récupérer la 1e année de sortie
-app.get("/api/firstYear", (req, res) => {
+app.get("/api/firstYear", collection, (req, res) => {
+  if (yearsRelease.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      yearsRelease.push(collection[i].basic_information.year);
+    }
+  }
+  firstYear = Math.min(...yearsRelease.filter(i => i > 0));
   res.send(firstYear);
 });
 
 //Route permettant de récupérer les dates d'ajout
-app.get("/api/yearsAdded", yearsAdded, (req, res) => {
+app.get("/api/yearsAdded", collection, (req, res) => {
+  if (yearsAdded.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      yearsAdded.push(collection[i].date_added);
+    }
+  }
   res.json(yearsAdded);
 });
 
 //Route permettant de récupérer les styles
-app.get("/api/styles", styles, (req, res) => {
+app.get("/api/styles", collection, (req, res) => {
+  if (styles.length === 0) {
+  for (let i = 0; i < collection.length; i++) {
+    styles.push(collection[i].basic_information.styles);
+  }}
   res.json(styles);
 });
 
 //Route permettant de récupérer les genres
 app.get("/api/genres", parsedGenres, (req, res) => {
+  if (genres.length === 0) {
+  for (let i = 0; i < collection.length; i++) {
+    genres.push(collection[i].basic_information.genres);
+  }}
+  genres.forEach(i => {
+    if (i in parsedGenres) parsedGenres[i] += 1;
+    else parsedGenres[i] = 1;
+  });
   res.json(genres);
 });
 

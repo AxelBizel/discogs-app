@@ -23,7 +23,7 @@ const Dashboard = props => {
     dispatch(getYearsAdded());
     dispatch(getGenres());
     dispatch(getStyles());
-    dispatch(getReleases());
+     dispatch(getReleases());
   }, [dispatch]);
 
   return (
