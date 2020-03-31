@@ -6,12 +6,14 @@ import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { getReleases } from "../actions";
 
-function Collection(props) {
-  const { collection, sortBy, filterBy, dispatch } = props;
+
+
+function Collection({ collection, sortBy, filterBy, dispatch }) {
 
   useEffect(() => {
     dispatch(getReleases());
   }, [dispatch]);
+
 
   return (
     <div id="Collection">

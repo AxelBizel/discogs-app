@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import CollectionDisplayCard from "./CollectionDisplayCard";
 import { filterReleases } from "../actions";
 import { connect } from "react-redux";
@@ -8,6 +8,9 @@ function CollectionDisplay(props) {
   const { collection } = props.collection;
   const { sortBy } = props.sortBy;
   const { filterBy } = props.filterBy;
+  const [currentPage, setCurrentPage]=useState(1)
+  const [cardsPerPage, setCardsPerPage] = useState(20)
+  const [colState, setColState] = useState(collection)
 
   const collectionSort = property => {
     switch (property) {
@@ -45,13 +48,19 @@ function CollectionDisplay(props) {
         break;
     }
   };
+let currentCards = null
+const indexOfLastCard = currentPage * cardsPerPage;
+const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+if (collection && sortBy) {
+   currentCards = collection.sort(collectionSort(sortBy)).slice(indexOfFirstCard, indexOfLastCard)
+}
 
   return (
     <>
-      {collection === null || sortBy === undefined ? (
+      {currentCards === null || sortBy === undefined ? (
         <Loader/>
       ) : (
-        collection
+        currentCards
           .sort(collectionSort(sortBy))
           .filter(item => {
             const regex = new RegExp(filterBy, "i");

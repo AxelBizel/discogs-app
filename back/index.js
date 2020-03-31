@@ -5,6 +5,7 @@ const port = 5000;
 const Discogs = require("disconnect").Client;
 const bodyParser = require("body-parser");
 const cors = require("cors");
+let ls = require("local-storage");
 const axios = require("axios");
 var db = new Discogs().database();
 
@@ -21,7 +22,6 @@ let yearsAdded = [];
 let genres = [];
 let parsedGenres = [];
 let styles = [];
-let ls = require("local-storage");
 let firstYear = "";
 
 //AccessData
@@ -150,12 +150,10 @@ app.get("/api/years", collection, (req, res) => {
       yearsRelease.push(collection[i].basic_information.year);
     }
   }
-
   yearsRelease.forEach(i => {
     if (i in parsedYears) parsedYears[i] += 1;
     else parsedYears[i] = 1;
   });
-
   res.json(parsedYears);
 });
 

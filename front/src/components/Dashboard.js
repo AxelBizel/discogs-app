@@ -15,88 +15,102 @@ import DashboardGenres from "./DashboardGenres";
 import DashboardStyles from "./DashboardStyles";
 import CountUp from "react-countup";
 
-const Dashboard = props => {
-  const { dispatch, years, yearsAdded, genres, styles, collection } = props;
-
+const Dashboard = ({
+  dispatch,
+  years,
+  yearsAdded,
+  genres,
+  styles,
+  collection
+}) => {
   useEffect(() => {
     dispatch(getYears());
     dispatch(getYearsAdded());
     dispatch(getGenres());
     dispatch(getStyles());
-     dispatch(getReleases());
+    dispatch(getReleases());
   }, [dispatch]);
 
   return (
     <div id="Dashboard">
-    <Container>
-
-      <Row>
-        <Col>
-      <div className="counterContainer">
-          <h3 className="centered"> 
-            You got{" "}
-            <span className="countup">
-              <CountUp end={collection === null ? 0 : collection.length} />
-            </span>{" "}
-            releases in your collection
-          </h3>
-      </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col xs="12" md="6" data-aos="fade-right" data-aos-duration="1000">
-          {years === null ? (
-            <Loader />
-          ) : (
-            <div className="chartContainer">
-              <h4 className="titleChart">Repartition by release year</h4>
-              <p>In number of releases</p>
-              <DashboardYearsChartJs years={years.years} />
+      <Container>
+        <Row>
+          <Col>
+            <div className="counterContainer">
+              <h3 className="centered">
+                You got{" "}
+                <span className="countup">
+                  <CountUp end={collection === null ? 0 : collection.length} />
+                </span>{" "}
+                releases in your collection
+              </h3>
             </div>
-          )}
+          </Col>
+        </Row>
+        <Row>
+          <Col xs="12" md="6" data-aos="fade-right" data-aos-duration="1000">
+            {years === null ? (
+              <Loader />
+            ) : (
+              <div className="chartContainer">
+                <h4 className="titleChart">Repartition by release year</h4>
+                <p>In number of releases</p>
+                <DashboardYearsChartJs years={years.years} />
+              </div>
+            )}
 
-          {yearsAdded === null ? (
-            <Loader />
-          ) : (
-            <div className="chartContainer" data-aos="fade-up" data-aos-duration="1000">
-              <h4 className="titleChart">Repartition by add date</h4>
-              <p>In cumulative number of releases</p>
-              <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
-            </div>
-          )}
+            {yearsAdded === null ? (
+              <Loader />
+            ) : (
+              <div
+                className="chartContainer"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+              >
+                <h4 className="titleChart">Repartition by add date</h4>
+                <p>In cumulative number of releases</p>
+                <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
+              </div>
+            )}
 
-          {genres === null ? (
-            <Loader />
-          ) : (
-            <div className="chartContainer" data-aos="fade-up" data-aos-duration="1000">
-              <h4 className="titleChart">Repartition by genres</h4>
-              <p>
-                In number of releases
-              </p>
-              <DashboardGenres
-                genres={genres.genres}
-              />
-              <p><em><em>
-                  Note : only genres with at least 5% of collection's items are
-                  represented
-                </em></em></p>
-            </div>
-          )}
-        </Col>
+            {genres === null ? (
+              <Loader />
+            ) : (
+              <div
+                className="chartContainer"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+              >
+                <h4 className="titleChart">Repartition by genres</h4>
+                <p>In number of releases</p>
+                <DashboardGenres genres={genres.genres} />
+                <p>
+                  <em>
+                   Genres representing less than 5% of collection are not displayed
+                  </em>
+                </p>
+              </div>
+            )}
+          </Col>
 
-        <Col xs="12" md="6" data-aos="fade-left" data-aos-duration="1000">
-          {styles === null ? (
-            <Loader />
-          ) : (
-            <div className="chartContainer">
-              <h4 className="titleChart">Repartition by styles</h4>
-              <p>In number of releases</p>
-              <DashboardStyles styles={styles.styles} />
-            </div>
-          )}
-        </Col>
-      </Row>
-    </Container>
+          <Col xs="12" md="6" data-aos="fade-left" data-aos-duration="1000">
+            {styles === null ? (
+              <Loader />
+            ) : (
+              <div className="chartContainer">
+                <h4 className="titleChart">Repartition by styles</h4>
+                <p>In number of releases</p>
+                <DashboardStyles styles={styles.styles} />
+                <p>
+                  <em>
+                   Styles representing less than 1% of collection are not displayed
+                  </em>
+                </p>
+              </div>
+            )}
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

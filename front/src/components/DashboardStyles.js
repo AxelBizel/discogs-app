@@ -26,10 +26,22 @@ const DashboardStyles = styles => {
     graphValues = graphValues.slice(1)
   }
 
+  const reducer = (accumulator, currentValue) => accumulator + currentValue;
+  let sum = graphValues.reduce(reducer);
+  let graphLabelsSliced = [];
+  let graphValuesSliced = [];
+
+  for (let i = 0; i < graphValues.length; i++) {
+    if (graphValues[i] / sum > 0.01) {
+      graphLabelsSliced.push(graphLabels[i]);
+      graphValuesSliced.push(graphValues[i]);
+    }
+  }
+
 
 
   const data = {
-    labels: graphLabels,
+    labels: graphLabelsSliced,
     datasets: [
       {
         label: 'Nombre de disques dans la collection',
@@ -38,7 +50,7 @@ const DashboardStyles = styles => {
         borderWidth: 1,
         hoverBackgroundColor: 'rgba(75,192,192,0.6)',
         hoverBorderColor: 'rgba(75,192,192,1)',
-        data: graphValues
+        data: graphValuesSliced
       }
     ]
   }
