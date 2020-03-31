@@ -78,3 +78,11 @@ export const isLoggedIn = loggedIn => {
     payload: !loggedIn
   };
 }
+
+
+export const getCardsPerPage = cardsPerPage => {
+  return {
+    type: "DISPLAY_COLLECTION",
+    payload: cardsPerPage
+  };
+};

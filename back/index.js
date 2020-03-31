@@ -11,7 +11,7 @@ var db = new Discogs().database();
 
 
 //Utilisateur
-const userName = "iktor";
+const userName = "ReadyBeast";
 
 //Variables
 let collection = [];

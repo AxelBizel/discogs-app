@@ -5,13 +5,13 @@ function Counter({ number }) {
   const [go, setGo] = useState(false);
   const [counter, setCounter] = useState(false);
   const element = useRef(null);
-  const timer = 6000;
+  const timer = number*5;
   const range = number / timer;
 
   if (counter < number && go) {
     setTimeout(() => {
       setCounter(Math.ceil(counter + range));
-    }, 1);
+    }, 10);
   }
 
   if (!go && element && element.current) {

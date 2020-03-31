@@ -6,14 +6,10 @@ import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { getReleases } from "../actions";
 
-
-
 function Collection({ collection, sortBy, filterBy, dispatch }) {
-
   useEffect(() => {
     dispatch(getReleases());
   }, [dispatch]);
-
 
   return (
     <div id="Collection">
@@ -50,4 +46,6 @@ function mstp(state) {
     filterBy: state.filterBy
   };
 }
+
+
 export default connect(mstp)(Collection);

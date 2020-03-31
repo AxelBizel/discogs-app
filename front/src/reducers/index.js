@@ -7,6 +7,7 @@ import years_reducer from "./years_reducer";
 import yearsAdded_reducer from "./yearsAdded_reducer";
 import genres_reducer from "./genres_reducer";
 import styles_reducer from "./styles_reducer";
+import cardsPerPage_reducer from "./cardsPerPage_reducer";
 
 export const initState = {
   collection: null,
@@ -16,7 +17,8 @@ export const initState = {
   years:null,
   yearsAdded:null,
   genres:null,
-  styles:null
+  styles:null,
+  cardsPerPage:20
 };
 
 const rootReducer = combineReducers({
@@ -27,7 +29,8 @@ const rootReducer = combineReducers({
   styles:styles_reducer,
   sortBy: sortBy_reducer,
   filterBy:filterBy_reducer,
-  isLoggedIn:isLoggedIn_reducer
+  isLoggedIn:isLoggedIn_reducer,
+  cardsPerPage:cardsPerPage_reducer
 });
 
 export default rootReducer;

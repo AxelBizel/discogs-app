@@ -1,22 +1,31 @@
-import React, {useState, useRef} from "react";
+import React, { useState, useEffect, useRef } from "react";
 import CollectionDisplayCard from "./CollectionDisplayCard";
-import { filterReleases } from "../actions";
+import { filterReleases, getCardsPerPage } from "../actions";
 import { connect } from "react-redux";
 import Loader from "./Loader";
-import elementInViewport from "../helpers"
+import elementInViewport from "../helpers";
+import CollectionLoader from "./CollectionLoader";
 
 function CollectionDisplay(props) {
   const { collection } = props.collection;
   const { sortBy } = props.sortBy;
   const { filterBy } = props.filterBy;
-  const [currentPage, setCurrentPage]=useState(1)
-  const [cardsPerPage, setCardsPerPage] = useState(8)
-  const [colState, setColState] = useState(collection)
-  const previousPage = useRef(null)
-  const nextPage = useRef(null)
+  const [currentPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(20);
+  const previousPage = useRef(null);
+  const nextPage = useRef(null);
+  const [percentageDisplayed, setPercentageDisplayed] = useState(0);
 
-  
-
+  useEffect(() => {
+    if (collection && cardsPerPage <= collection.length + 99) {
+      setInterval(setCardsPerPage(cardsPerPage + 100), 100);
+      console.log(cardsPerPage);
+    }
+    if (collection) {
+      setPercentageDisplayed((cardsPerPage / collection.length) * 100);
+      console.log("%", percentageDisplayed);
+    }
+  });
 
   const collectionSort = property => {
     switch (property) {
@@ -55,58 +64,49 @@ function CollectionDisplay(props) {
     }
   };
 
-let currentCards = null
-const indexOfLastCard = currentPage * cardsPerPage;
-const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-if (collection && sortBy) {
-   currentCards = collection.sort(collectionSort(sortBy)).slice(indexOfFirstCard, indexOfLastCard)
-}
+  //Load more cards when scroll down to bottom
+  let currentCards = null;
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  if (collection && sortBy) {
+    currentCards = collection
+      .sort(collectionSort(sortBy))
+      .slice(indexOfFirstCard, indexOfLastCard);
+  }
 
-// function elementInViewport(el) {
-//   if (el) {
-//     let top = el.offsetTop;
-//     let left = el.offsetLeft;
-//     let width = el.offsetWidth;
-//     let height = el.offsetHeight;
+  if (nextPage.current) {
+    window.addEventListener("scroll", () => {
+      if (
+        elementInViewport(nextPage.current) &&
+        collection &&
+        cardsPerPage < collection.length
+      ) {
+        setCardsPerPage(cardsPerPage + 50);
+      }
+    });
+  }
 
-//     while (el.offsetParent) {
-//       el = el.offsetParent;
-//       top += el.offsetTop;
-//       left += el.offsetLeft;
-//     }
+  //
 
-//     return (
-//       top >= window.pageYOffset &&
-//       left >= window.pageXOffset &&
-//       top + height <= window.pageYOffset + window.innerHeight &&
-//       left + width <= window.pageXOffset + window.innerWidth
-//     );
-//   }
-//   return false;
-// }
-
-if (nextPage.current) {
-  window.addEventListener("scroll", () => {
-    if (elementInViewport(nextPage.current)) {
-      setCardsPerPage(cardsPerPage +8);
-    }
-  });
-}
-
-// if (previousPage.current && currentPage > 1) {
-//   window.addEventListener("scroll", () => {
-//     if (elementInViewport(nextPage.current)) {
-//       setCurrentPage(currentPage-1);
-//     }
-//   });
-// }
+  // if (previousPage.current && currentPage > 1) {
+  //   window.addEventListener("scroll", () => {
+  //     if (elementInViewport(nextPage.current)) {
+  //       setCurrentPage(currentPage-1);
+  //     }
+  //   });
+  // }
 
 
   return (
     <>
-    <span ref={previousPage}></span>
+      {collection && cardsPerPage ? (
+        <CollectionLoader number={percentageDisplayed} />
+      ) : (
+        <></>
+      )}
+      <span ref={previousPage}></span>
       {currentCards === null || sortBy === undefined ? (
-        <Loader/>
+        <Loader />
       ) : (
         currentCards
           .sort(collectionSort(sortBy))
