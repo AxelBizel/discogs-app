@@ -1,16 +1,22 @@
-import React, {useState} from "react";
+import React, {useState, useRef} from "react";
 import CollectionDisplayCard from "./CollectionDisplayCard";
 import { filterReleases } from "../actions";
 import { connect } from "react-redux";
 import Loader from "./Loader";
+import elementInViewport from "../helpers"
 
 function CollectionDisplay(props) {
   const { collection } = props.collection;
   const { sortBy } = props.sortBy;
   const { filterBy } = props.filterBy;
   const [currentPage, setCurrentPage]=useState(1)
-  const [cardsPerPage, setCardsPerPage] = useState(20)
+  const [cardsPerPage, setCardsPerPage] = useState(8)
   const [colState, setColState] = useState(collection)
+  const previousPage = useRef(null)
+  const nextPage = useRef(null)
+
+  
+
 
   const collectionSort = property => {
     switch (property) {
@@ -48,6 +54,7 @@ function CollectionDisplay(props) {
         break;
     }
   };
+
 let currentCards = null
 const indexOfLastCard = currentPage * cardsPerPage;
 const indexOfFirstCard = indexOfLastCard - cardsPerPage;
@@ -55,8 +62,49 @@ if (collection && sortBy) {
    currentCards = collection.sort(collectionSort(sortBy)).slice(indexOfFirstCard, indexOfLastCard)
 }
 
+// function elementInViewport(el) {
+//   if (el) {
+//     let top = el.offsetTop;
+//     let left = el.offsetLeft;
+//     let width = el.offsetWidth;
+//     let height = el.offsetHeight;
+
+//     while (el.offsetParent) {
+//       el = el.offsetParent;
+//       top += el.offsetTop;
+//       left += el.offsetLeft;
+//     }
+
+//     return (
+//       top >= window.pageYOffset &&
+//       left >= window.pageXOffset &&
+//       top + height <= window.pageYOffset + window.innerHeight &&
+//       left + width <= window.pageXOffset + window.innerWidth
+//     );
+//   }
+//   return false;
+// }
+
+if (nextPage.current) {
+  window.addEventListener("scroll", () => {
+    if (elementInViewport(nextPage.current)) {
+      setCardsPerPage(cardsPerPage +8);
+    }
+  });
+}
+
+// if (previousPage.current && currentPage > 1) {
+//   window.addEventListener("scroll", () => {
+//     if (elementInViewport(nextPage.current)) {
+//       setCurrentPage(currentPage-1);
+//     }
+//   });
+// }
+
+
   return (
     <>
+    <span ref={previousPage}></span>
       {currentCards === null || sortBy === undefined ? (
         <Loader/>
       ) : (
@@ -80,6 +128,7 @@ if (collection && sortBy) {
             />
           ))
       )}
+      <span ref={nextPage}></span>
     </>
   );
 }

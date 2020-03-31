@@ -14,6 +14,7 @@ import DashboardYearsAdded from "./DashboardYearsAdded";
 import DashboardGenres from "./DashboardGenres";
 import DashboardStyles from "./DashboardStyles";
 import CountUp from "react-countup";
+import Counter from "./Counter";
 
 const Dashboard = ({
   dispatch,
@@ -40,7 +41,7 @@ const Dashboard = ({
               <h3 className="centered">
                 You got{" "}
                 <span className="countup">
-                  <CountUp end={collection === null ? 0 : collection.length} />
+                  <Counter number={collection === null ? 0 : collection.length} />
                 </span>{" "}
                 releases in your collection
               </h3>
