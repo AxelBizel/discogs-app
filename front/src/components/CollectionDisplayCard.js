@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 import {
   Col,
   Card,
@@ -7,67 +7,44 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle
-} from 'reactstrap'
+} from "reactstrap";
 
-function CollectionDisplayCard (props) {
-  const { item, index } = props
-  const [delay, setDelay] = useState(0)
+function CollectionDisplayCard(props) {
+  const { item, index } = props;
+  const [delay, setDelay] = useState(0);
 
   useEffect(() => {
-    if (window.matchMedia('(min-width: 992px)').matches) {
-      setDelay((index % 4) * 200)
-    } else if (window.matchMedia('(min-width: 768px)').matches) {
-      setDelay((index % 2) * 200)
+    if (window.matchMedia("(min-width: 992px)").matches) {
+      setDelay((index % 4) * 200);
+    } else if (window.matchMedia("(min-width: 768px)").matches) {
+      setDelay((index % 2) * 200);
     }
-  }, [index])
-
-  function elementInViewport(el) {
-    if (el) {
-      let top = el.offsetTop;
-      let left = el.offsetLeft;
-      let width = el.offsetWidth;
-      let height = el.offsetHeight;
-
-      while (el.offsetParent) {
-        el = el.offsetParent;
-        top += el.offsetTop;
-        left += el.offsetLeft;
-      }
-
-      return (
-        top >= window.pageYOffset &&
-        left >= window.pageXOffset &&
-        top + height <= window.pageYOffset + window.innerHeight &&
-        left + width <= window.pageXOffset + window.innerWidth
-      );
-    }
-    return false;
-  }
+  }, [index]);
 
   return (
     <>
       <Col
-        xs='12'
-        sm='6'
-        lg='3'
+        xs="12"
+        sm="6"
+        lg="3"
         key={index}
-        data-aos='fade-up'
-        data-aos-duration='500'
+        data-aos="fade-up"
+        data-aos-duration="500"
         data-aos-delay={delay}
       >
-        <Card style={{ margin: '1vh 1vw' }}>
+        <Card style={{ margin: "1vh 1vw" }}>
           <CardImg
             top
-            width='100%'
+            width="100%"
             src={`${item.cover_image}`}
-            alt='Card image cap'
+            alt="Card image cap"
           />
           <CardBody>
-            <CardTitle style={{ marginBottom: '0.5rem', fontWeight: 'bold' }}>
+            <CardTitle style={{ marginBottom: "0.5rem", fontWeight: "bold" }}>
               {item.artists.map(artist => `${artist.name} `)}
             </CardTitle>
             <CardSubtitle>{item.title}</CardSubtitle>
-            <CardText style={{ fontStyle: 'italic', fontSize: '0.8em' }}>
+            <CardText style={{ fontStyle: "italic", fontSize: "0.8em" }}>
               Label(s): {item.labels.map(label => `${label.name} `)} <br></br>
               Année : {item.year} <br></br>
               Format(s) : {item.formats.map(format => `${format.name} `)}
@@ -76,7 +53,7 @@ function CollectionDisplayCard (props) {
         </Card>
       </Col>
     </>
-  )
+  );
 }
 
-export default CollectionDisplayCard
+export default CollectionDisplayCard;

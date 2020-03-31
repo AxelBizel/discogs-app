@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import CollectionDisplayCard from "./CollectionDisplayCard";
-import { filterReleases, getCardsPerPage } from "../actions";
+import { getCardsPerPage } from "../actions";
 import { connect } from "react-redux";
 import Loader from "./Loader";
 import elementInViewport from "../helpers";
@@ -14,18 +14,15 @@ function CollectionDisplay(props) {
   const [cardsPerPage, setCardsPerPage] = useState(20);
   const previousPage = useRef(null);
   const nextPage = useRef(null);
-  const [percentageDisplayed, setPercentageDisplayed] = useState(0);
+  const { getCardsPerPage } = props;
+
 
   useEffect(() => {
+    getCardsPerPage(cardsPerPage);
     if (collection && cardsPerPage <= collection.length + 99) {
       setInterval(setCardsPerPage(cardsPerPage + 100), 100);
-      console.log(cardsPerPage);
     }
-    if (collection) {
-      setPercentageDisplayed((cardsPerPage / collection.length) * 100);
-      console.log("%", percentageDisplayed);
-    }
-  });
+  }, [cardsPerPage, getCardsPerPage, collection]);
 
   const collectionSort = property => {
     switch (property) {
@@ -96,14 +93,8 @@ function CollectionDisplay(props) {
   //   });
   // }
 
-
   return (
     <>
-      {collection && cardsPerPage ? (
-        <CollectionLoader number={percentageDisplayed} />
-      ) : (
-        <></>
-      )}
       <span ref={previousPage}></span>
       {currentCards === null || sortBy === undefined ? (
         <Loader />
@@ -132,11 +123,10 @@ function CollectionDisplay(props) {
     </>
   );
 }
-
 function mdtp(dispatch) {
   return {
-    filterReleases: filterBy => {
-      dispatch(filterReleases(filterBy));
+    getCardsPerPage: cardsPerPage => {
+      dispatch(getCardsPerPage(cardsPerPage));
     }
   };
 }
