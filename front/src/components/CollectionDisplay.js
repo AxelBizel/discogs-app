@@ -4,25 +4,20 @@ import { getCardsPerPage } from "../actions";
 import { connect } from "react-redux";
 import Loader from "./Loader";
 import elementInViewport from "../helpers";
-import CollectionLoader from "./CollectionLoader";
 
 function CollectionDisplay(props) {
-  const { collection } = props.collection;
-  const { sortBy } = props.sortBy;
-  const { filterBy } = props.filterBy;
-  const [currentPage] = useState(1);
-  const [cardsPerPage, setCardsPerPage] = useState(20);
-  const previousPage = useRef(null);
+  const { sortBy, filterBy, getCardsPerPage} = props
+  const {collection} = props.collection
+  // const [currentPage] = useState(1);
+  // const [cardsPerPage, setCardsPerPage] = useState(20);
   const nextPage = useRef(null);
-  const { getCardsPerPage } = props;
 
-
-  useEffect(() => {
-    getCardsPerPage(cardsPerPage);
-    if (collection && cardsPerPage <= collection.length + 99) {
-      setInterval(setCardsPerPage(cardsPerPage + 100), 100);
-    }
-  }, [cardsPerPage, getCardsPerPage, collection]);
+  // useEffect(() => {
+  //   getCardsPerPage(cardsPerPage);
+  //   if (collection && cardsPerPage < collection.length + 99) {
+  //     setInterval(setCardsPerPage(cardsPerPage + 200), 1000);
+  //   }
+  // }, [cardsPerPage, getCardsPerPage, collection]);
 
   const collectionSort = property => {
     switch (property) {
@@ -61,27 +56,28 @@ function CollectionDisplay(props) {
     }
   };
 
+  // let currentCards = null;
+  // const indexOfLastCard = currentPage * cardsPerPage;
+  // const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  // if (collection && sortBy) {
+  //   currentCards = collection
+  //   .sort(collectionSort(sortBy))
+  //   .slice(indexOfFirstCard, indexOfLastCard);
+  // }
+  
   //Load more cards when scroll down to bottom
-  let currentCards = null;
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  if (collection && sortBy) {
-    currentCards = collection
-      .sort(collectionSort(sortBy))
-      .slice(indexOfFirstCard, indexOfLastCard);
-  }
-
-  if (nextPage.current) {
-    window.addEventListener("scroll", () => {
-      if (
-        elementInViewport(nextPage.current) &&
-        collection &&
-        cardsPerPage < collection.length
-      ) {
-        setCardsPerPage(cardsPerPage + 50);
-      }
-    });
-  }
+  // if (nextPage.current &&
+  //   collection &&
+  //   cardsPerPage &&
+  //   cardsPerPage < collection.length) {
+  //   window.addEventListener("scroll", () => {
+  //     if (
+  //       elementInViewport(nextPage.current)
+  //     ) {
+  //       setCardsPerPage(cardsPerPage + 50);
+  //     }
+  //   });
+  // }
 
   //
 
@@ -95,11 +91,10 @@ function CollectionDisplay(props) {
 
   return (
     <>
-      <span ref={previousPage}></span>
-      {currentCards === null || sortBy === undefined ? (
+      {collection === null || sortBy === undefined ? (
         <Loader />
       ) : (
-        currentCards
+        collection
           .sort(collectionSort(sortBy))
           .filter(item => {
             const regex = new RegExp(filterBy, "i");
@@ -123,6 +118,17 @@ function CollectionDisplay(props) {
     </>
   );
 }
+
+function mstp(state) {
+  return {
+    collection: state.collection,
+    sortBy: state.sortBy,
+    filterBy: state.filterBy,
+    cardsPerPage: state.cardsPerPage
+  };
+}
+
+
 function mdtp(dispatch) {
   return {
     getCardsPerPage: cardsPerPage => {
@@ -131,4 +137,4 @@ function mdtp(dispatch) {
   };
 }
 
-export default connect(null, mdtp)(CollectionDisplay);
+export default connect(mstp, mdtp)(CollectionDisplay);

@@ -8,49 +8,26 @@ import { connect } from "react-redux";
 import { getReleases } from "../actions";
 
 function Collection({ collection, sortBy, filterBy, dispatch, cardsPerPage }) {
-  const [progressBar, setProgressBar] = useState(false);
-
   useEffect(() => {
     dispatch(getReleases());
-    if (cardsPerPage) {
-      setProgressBar(true);
-    }
-    // if (collection.length < cardsPerPage) {
-    //   setProgressBar(false);
-    // }
-  }, [dispatch, collection]);
+  }, [dispatch]);
 
   return (
     <div id="Collection">
       <Container>
-        {/* <Row>
-        <Col>
-        <CollectionCounter collection={collection} />
-        </Col>
-      </Row> */}
-        {progressBar ? (
-          <Row style={{ paddingTop: "5vh" }}>
-            <Col>
-              <CollectionLoader collection={collection} />
-            </Col>
-          </Row>
-        ) : (
-          <Row style={{ padding: "5vh 0" }}>
-            <Col xs="12" md="9">
-              <CollectionFilter />
-            </Col>
-            <Col xs="12" md="3">
-              <CollectionSort />
-            </Col>
-          </Row>
-        )}
+        <CollectionLoader />
+
+        <Row style={{ padding: "5vh 0" }}>
+          <Col xs="12" md="9">
+            <CollectionFilter />
+          </Col>
+          <Col xs="12" md="3">
+            <CollectionSort collection={collection} />
+          </Col>
+        </Row>
 
         <Row>
-          <CollectionDisplay
-            collection={collection}
-            sortBy={sortBy}
-            filterBy={filterBy}
-          />
+          <CollectionDisplay />
         </Row>
       </Container>
     </div>
