@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Progress } from "reactstrap";
 // import { connect } from "react-redux";
 import { Container, Row, Col } from "reactstrap";
+import Loader from "./Loader";
 
 const CollectionLoader = ({ cardsPerPage, number }) => {
   const [percentageDisplayed, setPercentageDisplayed] = useState(0);
@@ -17,7 +18,7 @@ const CollectionLoader = ({ cardsPerPage, number }) => {
     <>
       {cardsPerPage && number && percentageDisplayed < 100 ? (
         <Container>
-          <Row style={{ padding: "10vh 0 50vh 0" }}>
+          <Row>
             <Col>
               <p>
                 Loading collection : {cardsPerPage} / {number} (
@@ -25,6 +26,7 @@ const CollectionLoader = ({ cardsPerPage, number }) => {
               </p>
 
               <Progress animated color="info" value={percentageDisplayed} />
+              <Loader />
             </Col>
           </Row>
         </Container>

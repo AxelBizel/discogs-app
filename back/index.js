@@ -10,7 +10,7 @@ const axios = require("axios");
 var db = new Discogs().database();
 
 //Utilisateur
-const userName = "iktor";
+const userName = "ReadyBeast";
 
 //Variables
 let collection = [];
@@ -107,7 +107,7 @@ col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (err, data) {
       ) {
         if (err) {
           console.log(err);
-          // res.status(500).send("Error 500");
+          res.status(500).send("Error 500");
         } else {
           Array.prototype.push.apply(collection, data.releases);
           console.log("COLLECTION LENGTH", collection.length);
@@ -131,14 +131,7 @@ app.get("/api/collection", collection, (req, res) => {
       items.push(collection[i].basic_information);
     }
   }
-  // console.log("items length", items.length);
-  // console.log("item[0]", items[0]);
-  // for (let i = 0; i < items.length; i++) {
-  //   db.getRelease(items[i].id, function(err, data) {
-  //     console.log("TEST", data);
-  //   });
-  // }
-  console.log("COUCOU COLLEC");
+   console.log("COUCOU COLLEC", items[12]);
   res.json(items);
 });
 
