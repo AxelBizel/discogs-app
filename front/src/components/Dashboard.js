@@ -9,7 +9,7 @@ import {
   getReleases
 } from "../actions";
 import Loader from "./Loader";
-import DashboardYearsChartJs from "./DashboardYearsRelease";
+import DashboardYearsRelease from "./DashboardYearsRelease";
 import DashboardYearsAdded from "./DashboardYearsAdded";
 import DashboardGenres from "./DashboardGenres";
 import DashboardStyles from "./DashboardStyles";
@@ -56,7 +56,7 @@ const Dashboard = ({
               <div className="chartContainer">
                 <h4 className="titleChart">Repartition by release year</h4>
                 <p>In number of releases</p>
-                <DashboardYearsChartJs years={years.years} />
+                <DashboardYearsRelease years={years.years} />
               </div>
             )}
 

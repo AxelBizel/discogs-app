@@ -11,9 +11,9 @@ function Header() {
       <Row>
         <Col style={{ margin: "5vh 1vw" }}>
           <h1 style={{ textAlign: "center" }}>
-            Your{" "}
+            Discogs{" "}
             <img src={logoDiscogs} alt="Discogs " style={{ width: "40px" }} />{" "}
-            Collection
+            Explorer
           </h1>
         </Col>
       </Row>

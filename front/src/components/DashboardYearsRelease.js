@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { Line } from 'react-chartjs-2'
 
-const DashboardYearsChartJs = years => {
+const DashboardYearsRelease = years => {
   let yearsArray = years.years.map(y => {
     return y ? y : 0
   })
@@ -52,4 +52,4 @@ const DashboardYearsChartJs = years => {
     </>
   )
 }
-export default DashboardYearsChartJs
+export default DashboardYearsRelease

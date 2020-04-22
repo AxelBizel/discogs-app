@@ -9,7 +9,6 @@ let ls = require("local-storage");
 const axios = require("axios");
 var db = new Discogs().database();
 
-
 //Utilisateur
 const userName = "iktor";
 
@@ -31,14 +30,14 @@ let accessData = {
   consumerKey: "IlatcCHyzkBKGDnipIlm",
   consumerSecret: "XEyfrfnqnVzbmpHKTxQTrBVPLeZxANtl",
   token: "YvMTutJDePEOXVvNFKEUNFSXOAAxdDdJruvgGhGH",
-  tokenSecret: "NalHndvwXMixAIfTBPDJbZhItCcaELUiLCrAUSEo"
+  tokenSecret: "NalHndvwXMixAIfTBPDJbZhItCcaELUiLCrAUSEo",
 };
 
 //Middlewares
 app.use(bodyParser.json());
 app.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: true,
   })
 );
 app.use(cors());
@@ -56,13 +55,13 @@ app.use(express.static("img"));
 // });
 
 //OAuth
-app.get("/authorize", function(req, res) {
+app.get("/authorize", function (req, res) {
   var oAuth = new Discogs().oauth();
   oAuth.getRequestToken(
     "IlatcCHyzkBKGDnipIlm",
     "XEyfrfnqnVzbmpHKTxQTrBVPLeZxANtl",
     "http://localhost:5000/callback",
-    function(err, requestData) {
+    function (err, requestData) {
       // Persist "requestData" here so that the callback handler can
       // access it later after returning from the authorize url
       ls.set("requestData", requestData);
@@ -71,12 +70,12 @@ app.get("/authorize", function(req, res) {
   );
 });
 
-app.get("/callback", function(req, res) {
+app.get("/callback", function (req, res) {
   const requestData = ls.get("requestData");
   var oAuth = new Discogs(requestData).oauth();
   oAuth.getAccessToken(
     req.query.oauth_verifier, // Verification code sent back by Discogs
-    function(err, accessData) {
+    function (err, accessData) {
       ls.set("accessData", accessData);
       // Persist "accessData" here for following OAuth calls
       res.send("Received access token!");
@@ -84,16 +83,16 @@ app.get("/callback", function(req, res) {
   );
 });
 
-app.get("/identity", function(req, res) {
+app.get("/identity", function (req, res) {
   var dis = new Discogs(accessData);
-  dis.getIdentity(function(err, data) {
+  dis.getIdentity(function (err, data) {
     res.send(data);
   });
 });
 
 //Récupération collection
 const col = new Discogs(accessData).user().collection();
-col.getReleases(userName, 0, { page: 1, per_page: 50 }, function(err, data) {
+col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (err, data) {
   if (err) {
     console.log(err);
     // res.status(500).send("Error 500");
@@ -102,7 +101,7 @@ col.getReleases(userName, 0, { page: 1, per_page: 50 }, function(err, data) {
     console.log("PAGES", pages);
 
     for (let i = 1; i <= pages; i++) {
-      col.getReleases(userName, 0, { page: `${i}`, per_page: 50 }, function(
+      col.getReleases(userName, 0, { page: `${i}`, per_page: 50 }, function (
         err,
         data
       ) {
@@ -150,10 +149,12 @@ app.get("/api/years", collection, (req, res) => {
       yearsRelease.push(collection[i].basic_information.year);
     }
   }
-  yearsRelease.forEach(i => {
-    if (i in parsedYears) parsedYears[i] += 1;
-    else parsedYears[i] = 1;
-  });
+  if (parsedYears.length === 0) {
+    yearsRelease.forEach((i) => {
+      if (i in parsedYears) parsedYears[i] += 1;
+      else parsedYears[i] = 1;
+    });
+  }
   res.json(parsedYears);
 });
 
@@ -164,7 +165,7 @@ app.get("/api/firstYear", collection, (req, res) => {
       yearsRelease.push(collection[i].basic_information.year);
     }
   }
-  firstYear = Math.min(...yearsRelease.filter(i => i > 0));
+  firstYear = Math.min(...yearsRelease.filter((i) => i > 0));
   res.send(firstYear);
 });
 
@@ -181,19 +182,21 @@ app.get("/api/yearsAdded", collection, (req, res) => {
 //Route permettant de récupérer les styles
 app.get("/api/styles", collection, (req, res) => {
   if (styles.length === 0) {
-  for (let i = 0; i < collection.length; i++) {
-    styles.push(collection[i].basic_information.styles);
-  }}
+    for (let i = 0; i < collection.length; i++) {
+      styles.push(collection[i].basic_information.styles);
+    }
+  }
   res.json(styles);
 });
 
 //Route permettant de récupérer les genres
 app.get("/api/genres", parsedGenres, (req, res) => {
   if (genres.length === 0) {
-  for (let i = 0; i < collection.length; i++) {
-    genres.push(collection[i].basic_information.genres);
-  }}
-  genres.forEach(i => {
+    for (let i = 0; i < collection.length; i++) {
+      genres.push(collection[i].basic_information.genres);
+    }
+  }
+  genres.forEach((i) => {
     if (i in parsedGenres) parsedGenres[i] += 1;
     else parsedGenres[i] = 1;
   });
@@ -201,7 +204,7 @@ app.get("/api/genres", parsedGenres, (req, res) => {
 });
 
 //LISTEN
-app.listen(port, err => {
+app.listen(port, (err) => {
   if (err) {
     throw new Error("Something bad happened...");
   }

@@ -17,7 +17,7 @@ const CollectionLoader = ({ cardsPerPage, number }) => {
     <>
       {cardsPerPage && number && percentageDisplayed < 100 ? (
         <Container>
-          <Row style={{ padding: "5vh" }}>
+          <Row style={{ padding: "10vh 0 50vh 0" }}>
             <Col>
               <p>
                 Loading collection : {cardsPerPage} / {number} (
