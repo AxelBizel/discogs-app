@@ -18,7 +18,7 @@ export const initState = {
   yearsAdded:null,
   genres:null,
   styles:null,
-  cardsPerPage:20
+  cardsPerPage:50
 };
 
 const rootReducer = combineReducers({

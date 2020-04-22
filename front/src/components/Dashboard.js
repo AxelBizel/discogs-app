@@ -87,7 +87,7 @@ const Dashboard = ({
                 <DashboardGenres genres={genres.genres} />
                 <p>
                   <em>
-                   Genres representing less than 5% of collection are not displayed
+                   Genres underneath 3% of collection are not displayed
                   </em>
                 </p>
               </div>
@@ -104,7 +104,7 @@ const Dashboard = ({
                 <DashboardStyles styles={styles.styles} />
                 <p>
                   <em>
-                   Styles representing less than 1% of collection are not displayed
+                   Styles underneath 1% of collection are not displayed
                   </em>
                 </p>
               </div>

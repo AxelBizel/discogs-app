@@ -32,7 +32,7 @@ const DashboardGenres = genres => {
   let graphValuesSliced = [];
 
   for (let i = 0; i < graphValues.length; i++) {
-    if (graphValues[i] / sum > 0.05) {
+    if (graphValues[i] / sum > 0.03) {
       graphLabelsSliced.push(graphLabels[i]);
       graphValuesSliced.push(graphValues[i]);
     }

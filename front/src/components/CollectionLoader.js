@@ -1,35 +1,33 @@
 import React, { useState, useEffect } from "react";
 import { Progress } from "reactstrap";
-import { connect } from "react-redux";
-import { Row, Col } from "reactstrap";
+// import { connect } from "react-redux";
+import { Container, Row, Col } from "reactstrap";
 
-const CollectionLoader = ({collection, cardsPerPage}) => {
-  // const { cardsPerPage } = props.cardsPerPage;
-  // const { collection } = props.collection;
-  const [percentageDisplayed, setPercentageDisplayed] = useState(5);
+const CollectionLoader = ({ cardsPerPage, number }) => {
+  const [percentageDisplayed, setPercentageDisplayed] = useState(0);
 
   useEffect(() => {
-    if (collection && cardsPerPage) {
-      setPercentageDisplayed(
-        Math.ceil((cardsPerPage / collection.length) * 100)
-      );
+    if (number && cardsPerPage) {
+      setPercentageDisplayed(Math.ceil((cardsPerPage / number) * 100));
       console.log("%", percentageDisplayed);
     }
-  }, [cardsPerPage, collection, percentageDisplayed]);
+  }, [cardsPerPage, percentageDisplayed]);
 
   return (
     <>
-      {cardsPerPage && collection && percentageDisplayed < 100 ? (
-        <Row style={{ paddingTop: "5vh" }}>
-          <Col>
-            <p>
-              Loading collection : {cardsPerPage} / {collection.length} (
-              {percentageDisplayed} %)
-            </p>
+      {cardsPerPage && number && percentageDisplayed < 100 ? (
+        <Container>
+          <Row style={{ padding: "5vh" }}>
+            <Col>
+              <p>
+                Loading collection : {cardsPerPage} / {number} (
+                {percentageDisplayed} %)
+              </p>
 
-            <Progress animated color="info" value={percentageDisplayed} />
-          </Col>
-        </Row>
+              <Progress animated color="info" value={percentageDisplayed} />
+            </Col>
+          </Row>
+        </Container>
       ) : (
         <></>
       )}
@@ -37,11 +35,11 @@ const CollectionLoader = ({collection, cardsPerPage}) => {
   );
 };
 
-function mstp(state) {
-  return {
-    collection: state.collection,
-    cardsPerPage: state.cardsPerPage
-  };
-}
+// function mstp(state) {
+//   return {
+//     collection: state.collection,
+//     cardsPerPage: state.cardsPerPage
+//   };
+// }
 
-export default connect(mstp)(CollectionLoader);
+export default CollectionLoader;

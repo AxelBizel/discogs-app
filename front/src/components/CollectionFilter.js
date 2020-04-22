@@ -23,6 +23,14 @@ function CollectionFilter(props) {
   );
 }
 
+
+function mstp(state) {
+  return {
+    filterBy: state.filterBy
+  };
+}
+
+
 function mdtp(dispatch) {
   return {
     filterReleases: filter => {
@@ -31,4 +39,4 @@ function mdtp(dispatch) {
   };
 }
 
-export default connect(null, mdtp)(CollectionFilter);
+export default connect(mstp, mdtp)(CollectionFilter);
