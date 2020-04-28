@@ -10,7 +10,7 @@ const axios = require("axios");
 var db = new Discogs().database();
 
 //Utilisateur
-const userName = "ReadyBeast";
+const userName = "iktor";
 
 //Variables
 let collection = [];
@@ -123,6 +123,14 @@ col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (err, data) {
 //   db.getRelease(items[i].id, function(err, data){
 // 	console.log("DATA", data);
 // })};
+
+
+
+//Route login
+// app.get("/api/login", username, (req, res) => {
+//     res.json(username);
+// });
+
 
 //Route permettant de récupérer l'ensemble des items de la collection
 app.get("/api/collection", collection, (req, res) => {
