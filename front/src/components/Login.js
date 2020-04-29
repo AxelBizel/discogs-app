@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router-dom";
 import Axios from "axios";
-import "./login.css";
-import { isLoggedIn } from "../actions";
-import { connect } from "react-redux";
 import {
   Container,
   Row,
@@ -20,7 +17,7 @@ import {
 } from "reactstrap";
 import logoDiscogs from "../assets/img/LogoApp.png";
 
-function Login() {
+function Login({collection, sortBy, filterBy, dispatch}) {
   const [login, setLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
@@ -123,16 +120,4 @@ function Login() {
   );
 }
 
-function mstp(state) {
-  return { isLoggedIn: state.isLoggedIn };
-}
-
-function mdtp(dispatch) {
-  return {
-    isLoggedIn: (isLoggedIn) => {
-      dispatch(isLoggedIn(isLoggedIn));
-    },
-  };
-}
-
-export default connect(mstp, mdtp)(Login);
+export default Login;
