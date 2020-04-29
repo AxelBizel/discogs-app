@@ -16,7 +16,7 @@ const Navigation = () => {
       <Nav tabs>
         <Col>
         <NavItem>
-          <NavLink href="/">Collection</NavLink>
+          <NavLink href="/collection">Collection</NavLink>
         </NavItem>
         </Col>
         <Col>

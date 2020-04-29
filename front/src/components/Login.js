@@ -18,49 +18,27 @@ import {
   FormGroup,
   Label,
 } from "reactstrap";
-import  logoDiscogs  from "../logoDiscogs.svg";
+import logoDiscogs from "../assets/img/LogoApp.png";
 
 function Login() {
-  const [login, setLogin] = useState("");
+  const [login, setLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-  // async formSubmit(ev) {
-  //   ev.preventDefault();
-  //   try {
-  //     const result = await Axios.post(`${IPserver}/api/login`, {
-  //       login        });
-  //     // if(result.data.token)
-  //     if (result.data.token) {
-  //       localStorage.setItem("token", result.data.token);
-  //       this.setState({
-  //         loggedIn: true
-  //       });
-  //     }
-  //   } catch (err) {
-  //     alert(err.response.data);
-  //     this.setState({
-  //       error: err.response.data
-  //     });
-  //   }
-  // }
 
   useEffect(() => {
-    Axios.post('/api/login', {
-      username: {login},
-    })
-    .then(function (response) {
-      console.log(response);
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+    if (loggedIn && login) {
+      Axios.post("http://localhost:5000/api/login", {userName:login})
+      }
+
+    console.log("loggedIn", loggedIn);
+    console.log("login", login);
   }, [loggedIn]);
 
   return (
     <>
       {loggedIn === false ? (
-        <>
-          {/* <div className="flexContainerLogin">
+    <>
+      {/* <div className="flexContainerLogin">
             <div className="wrapperLogin fadeInDown">
               <div id="formContent">
                 
@@ -98,45 +76,49 @@ function Login() {
             </div>
           </div> */}
 
-          <Container>
-            <Row className="justify-content-center">
-              <Col xs="8" md="4">
-                <Card data-aos="fade-down">
-                  <CardBody>
-                    <CardImg
-                      top
-                      width="50%"
-                      src={logoDiscogs}
-                      alt="Discogs Logo"
-                    />
+      <Container>
+        <Row className="justify-content-center">
+          <Col xs="8" md="4">
+            <Card data-aos="fade-down">
+              <CardBody>
+                <CardImg
+                  top
+                  width="100%"
+                  src={logoDiscogs}
+                  alt="Discogs Logo"
+                  style={{ marginBottom: "2vh" }}
+                />
 
-                    <Form>
-                      <FormGroup>
-                        <Label for="username">
-                          Please enter your Discogs username to start exploring your collection
-                        </Label>
-                        <Input
-                          type="text"
-                          name="username"
-                          id="username"
-                          placeholder="your Discogs username"
-                        />
-                      </FormGroup>
-                    </Form>
-                    <CardText></CardText>
-                    <Row className="justify-content-center">
-                      <Button>OK</Button>
-                    </Row>
-                  </CardBody>
-                
-                </Card>
-              </Col>
-            </Row>
-          </Container>
-        </>
-      ) : (
-        <>{/* <Redirect to="/collection" /> */}</>
-      )}
+                <Form>
+                  <FormGroup>
+                    <Label for="username">
+                      Please enter your Discogs username to start exploring your
+                      collection
+                    </Label>
+                    <Input
+                      type="text"
+                      name="username"
+                      id="username"
+                      placeholder="your Discogs username"
+                      onChange={(e) => setLogin(e.target.value)}
+                    />
+                  </FormGroup>
+                </Form>
+                <CardText></CardText>
+                <Row className="justify-content-center">
+                  <Button onClick={() => setLoggedIn(!loggedIn)}>OK</Button>
+                </Row>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </>
+    ) : (
+      <>
+        <Redirect to="/collection" />
+      </>
+    )}
     </>
   );
 }

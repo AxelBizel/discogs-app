@@ -7,21 +7,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 let ls = require("local-storage");
 const axios = require("axios");
-var db = new Discogs().database();
-
-//Utilisateur
-const userName = "iktor";
-
-//Variables
-let collection = [];
-let items = [];
-let yearsRelease = [];
-let parsedYears = [];
-let yearsAdded = [];
-let genres = [];
-let parsedGenres = [];
-let styles = [];
-let firstYear = "";
+let db = new Discogs().database();
 
 //AccessData
 let accessData = {
@@ -90,32 +76,50 @@ app.get("/identity", function (req, res) {
   });
 });
 
-//Récupération collection
-const col = new Discogs(accessData).user().collection();
-col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (err, data) {
-  if (err) {
-    console.log(err);
-    // res.status(500).send("Error 500");
-  } else {
-    let pages = data.pagination.pages;
-    console.log("PAGES", pages);
+//Variables
+let collection = [];
+let items = [];
+let yearsRelease = [];
+let parsedYears = [];
+let yearsAdded = [];
+let genres = [];
+let parsedGenres = [];
+let styles = [];
+let firstYear = "";
 
-    for (let i = 1; i <= pages; i++) {
-      col.getReleases(userName, 0, { page: `${i}`, per_page: 50 }, function (
-        err,
-        data
-      ) {
-        if (err) {
-          console.log(err);
-          res.status(500).send("Error 500");
-        } else {
-          Array.prototype.push.apply(collection, data.releases);
-          console.log("COLLECTION LENGTH", collection.length);
-        }
-      });
+//Récupération nom d'utilisateur et collection
+app.post("/api/login", async (req, res) => {
+  console.log("LOGIN", req.body.userName);
+  let userName = await req.body.userName;
+
+
+  const col = await new Discogs(accessData).user().collection();
+  col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (err, data) {
+    if (err) {
+      console.log(err);
+      // res.status(500).send("Error 500");
+    } else {
+      let pages = data.pagination.pages;
+      console.log("PAGES", pages);
+
+      for (let i = 1; i <= pages; i++) {
+        col.getReleases(userName, 0, { page: `${i}`, per_page: 50 }, function (
+          err,
+          data
+        ) {
+          if (err) {
+            console.log(err);
+            res.status(500).send("Error 500");
+          } else {
+            Array.prototype.push.apply(collection, data.releases);
+            console.log("COLLECTION LENGTH", collection.length);
+          }
+        });
+      }
     }
-  }
-  return collection;
+    return collection;
+  });
+
 });
 
 //Récupération infos complémentaires
@@ -124,14 +128,6 @@ col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (err, data) {
 // 	console.log("DATA", data);
 // })};
 
-
-
-//Route login
-// app.get("/api/login", username, (req, res) => {
-//     res.json(username);
-// });
-
-
 //Route permettant de récupérer l'ensemble des items de la collection
 app.get("/api/collection", collection, (req, res) => {
   if (items.length === 0) {
@@ -139,7 +135,7 @@ app.get("/api/collection", collection, (req, res) => {
       items.push(collection[i].basic_information);
     }
   }
-   console.log("COUCOU COLLEC", items[12]);
+  console.log("COUCOU COLLEC", items[12]);
   res.json(items);
 });
 
