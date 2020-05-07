@@ -7,15 +7,13 @@ import { connect } from "react-redux";
 import { getReleases } from "../actions";
 
 function Collection({ collection, sortBy, filterBy, dispatch, cardsPerPage }) {
-  useEffect(() => {
-    dispatch(getReleases());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getReleases());
+  // }, [dispatch]);
 
   return (
     <div id="Collection">
       <Container>
-      
-
         <Row style={{ padding: "5vh 0" }}>
           <Col xs="12" md="9">
             <CollectionFilter />
@@ -26,7 +24,7 @@ function Collection({ collection, sortBy, filterBy, dispatch, cardsPerPage }) {
         </Row>
 
         <Row>
-          <CollectionDisplay collection={collection}  />
+          <CollectionDisplay collection={collection} />
         </Row>
       </Container>
     </div>
@@ -38,7 +36,7 @@ function mstp(state) {
     collection: state.collection,
     sortBy: state.sortBy,
     filterBy: state.filterBy,
-    cardsPerPage: state.cardsPerPage
+    cardsPerPage: state.cardsPerPage,
   };
 }
 

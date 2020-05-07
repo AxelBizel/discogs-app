@@ -16,108 +16,78 @@ import {
   Label,
 } from "reactstrap";
 import logoDiscogs from "../assets/img/LogoApp.png";
+import { connect } from "react-redux";
+import { getReleases } from "../actions";
 
-function Login({collection, sortBy, filterBy, dispatch}) {
+function Login({ collection, dispatch }) {
   const [login, setLogin] = useState(false);
   const [loggedIn, setLoggedIn] = useState(false);
 
-
   useEffect(() => {
     if (loggedIn && login) {
-      Axios.post("http://localhost:5000/api/login", {userName:login})
-      }
+      Axios.post("http://localhost:5000/api/login", { userName: login }).then(dispatch(getReleases())
+      );
+    }
 
     console.log("loggedIn", loggedIn);
     console.log("login", login);
-  }, [loggedIn]);
+    console.log('col length', collection.length)
+  }, [loggedIn, dispatch] );
 
   return (
     <>
-      {loggedIn === false ? (
-    <>
-      {/* <div className="flexContainerLogin">
-            <div className="wrapperLogin fadeInDown">
-              <div id="formContent">
-                
-                <div class="fadeIn first">
-                  <img
-                    src={require("../logoDiscogs.svg")}
-                    id="icon"
-                    alt="User Icon"
-                  />
-                </div>
-
-                <form id="formLogin">
-                  <input
-                    type="text"
-                    id="login"
-                    value={login}
-                    class="fadeIn second"
-                    onChange={e => setLogin(e.target.value)}
-                    name="login"
-                    placeholder="Identifiant"
-                    className="inputForm"
-                  />
-
-                  <input
-                    type="submit"
-                    id="submitLogin"
-                    class="fadeIn fourth"
-                    value="Connexion"
-                    className="inputForm submitLogin"
-                    onClick={setLoggedIn(true)}
-                  />
-                </form>
-
-                  </div>
-            </div>
-          </div> */}
-
-      <Container>
-        <Row className="justify-content-center">
-          <Col xs="8" md="4">
-            <Card data-aos="fade-down">
-              <CardBody>
-                <CardImg
-                  top
-                  width="100%"
-                  src={logoDiscogs}
-                  alt="Discogs Logo"
-                  style={{ marginBottom: "2vh" }}
-                />
-
-                <Form>
-                  <FormGroup>
-                    <Label for="username">
-                      Please enter your Discogs username to start exploring your
-                      collection
-                    </Label>
-                    <Input
-                      type="text"
-                      name="username"
-                      id="username"
-                      placeholder="your Discogs username"
-                      onChange={(e) => setLogin(e.target.value)}
+      {loggedIn && collection? (
+        <>
+          <Redirect to="/collection" />
+        </>
+      ) : (
+        <>
+          <Container>
+            <Row className="justify-content-center">
+              <Col xs="8" md="4">
+                <Card data-aos="fade-down">
+                  <CardBody>
+                    <CardImg
+                      top
+                      width="100%"
+                      src={logoDiscogs}
+                      alt="Discogs Logo"
+                      style={{ marginBottom: "2vh" }}
                     />
-                  </FormGroup>
-                </Form>
-                <CardText></CardText>
-                <Row className="justify-content-center">
-                  <Button onClick={() => setLoggedIn(!loggedIn)}>OK</Button>
-                </Row>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-    </>
-    ) : (
-      <>
-        <Redirect to="/collection" />
-      </>
-    )}
+
+                    <Form>
+                      <FormGroup>
+                        <Label for="username">
+                          Please enter your Discogs username to start exploring
+                          your collection
+                        </Label>
+                        <Input
+                          type="text"
+                          name="username"
+                          id="username"
+                          placeholder="your Discogs username"
+                          onChange={(e) => setLogin(e.target.value)}
+                        />
+                      </FormGroup>
+                    </Form>
+                    <CardText></CardText>
+                    <Row className="justify-content-center">
+                      <Button onClick={() => setLoggedIn(!loggedIn)}>OK</Button>
+                    </Row>
+                  </CardBody>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+        </>
+      )}
     </>
   );
 }
+function mstp(state) {
+  return {
+    collection: state.collection,
+  };
+}
 
-export default Login;
+export default connect(mstp)(Login);

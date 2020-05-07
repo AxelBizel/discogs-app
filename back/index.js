@@ -67,7 +67,7 @@ app.get("/identity", function (req, res) {
 
 //Variables
 let collection = [];
-// let items = [];
+let items = [];
 let userName = "";
 let yearsRelease = [];
 let parsedYears = [];
@@ -77,79 +77,141 @@ let parsedGenres = [];
 let styles = [];
 let firstYear = "";
 
-//Fonction pour récupérer collection
+// Fonction pour récupérer collection
 function getCollection(userName) {
+  console.log("INIT COLLECTION FUNCTION");
   const col = new Discogs(accessData).user().collection();
-  col.getReleases(userName, 0, { page: 1, per_page: 50 }, async function (
-    err,
-    data
-  ) {
-    if (err) {
-      console.log(err);
-      res.status(500).send("Error 500");
-    } else {
-      let collection = await data;
-      let pages = data.pagination.pages;
-      console.log("PAGES", pages);
+  return new Promise((resolve) => {
+    try {
+      col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (
+        err,
+        data
+      ) {
+        if (err) {
+          console.log(err);
+        } else {
+          let pages = data.pagination.pages;
+          console.log("PAGES", pages);
 
-      for (let i = 1; i <= pages; i++) {
-        col.getReleases(
-          userName,
-          0,
-          { page: `${i}`, per_page: 50 },
-          async function (err, data) {
-            if (err) {
-              console.log(err);
-              res.status(500).send("Error 500");
-            } else {
-              await Array.prototype.push.apply(collection, data.releases);
-            }
+          for (let i = 1; i <= pages; i++) {
+            col.getReleases(
+              userName,
+              0,
+              { page: `${i}`, per_page: 50 },
+              function (err, data) {
+                if (err) {
+                  console.log(err);
+                } else {
+                  let dataReleases = data.releases;
+                  Array.prototype.push.apply(collection, dataReleases);
+                  console.log("COL FUNCTION LENGTH", collection.length);
+                }
+              }
+            );
           }
-        );
-      }
+        }
+      });
+      setTimeout(() => {
+        resolve(collection);
+      }, 10000);
+    } catch (err) {
+      console.log(err);
     }
-    console.log("COL ASYNC", collection.length);
-    return collection;
   });
 }
 
+// const getCollection = new Promise((resolve, reject) => {
+
+//   console.log("INIT COLLECTION FUNCTION");
+
+//   const col = new Discogs(accessData).user().collection();
+//     if (username != ""){
+//   try {
+//     col.getReleases(userName, 0, { page: 1, per_page: 50 }, async function (
+//       err,
+//       data
+//     ) {
+//       if (err) {
+//         console.log(err);
+//         // res.status(500).send("Error 500");
+//       } else {
+//         let pages = await data.pagination.pages;
+//         console.log("PAGES", pages);
+
+//         for (let i = 1; i <= pages; i++) {
+//           col.getReleases(
+//             userName,
+//             0,
+//             { page: `${i}`, per_page: 50 },
+//             async function (err, data) {
+//               if (err) {
+//                 console.log(err);
+//                 res.status(500).send("Error 500");
+//               } else {
+//                 let dataReleases = await data.releases;
+//                 Array.prototype.push.apply(collection, dataReleases);
+//                 console.log("COL FUNCTION LENGTH", collection.length);
+//               }
+//             }
+//           );
+//         }
+
+//         resolve(collection);
+
+//       }
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }})
+
 //Fonction pour récupérer l'ensemble des infos basiques pour les cards de la page collection
-async function getItems(collection) {
-  try {
-    let items = [];
-    let collection = await getCollection();
-    if (collection) {
-      for (let i = 0; i < collection.length; i++) {
-        items.push(collection[i].basic_information);
-      }
-    }
-    return items;
-  } catch (e) {
-    console.log("Error", e);
-  }
-}
+// async function getItems() {
+//   console.log("INIT ITEMS FUNCTION");
+//   const userCol = await getCollection(userName);
+//   for (let i = 0; i < userCol.length; i++) {
+//     items.push(userCol[i].basic_information);
+//   }
+//   console.log("RESULT ITEMS FUNCTION", items.length);
+//   return items;
+// }
 
 //Récupération nom d'utilisateur
 app.post("/api/login", async (req, res) => {
-  userName = req.body.userName;
+  userName = await req.body.userName;
   console.log("LOGIN", userName);
-
-  //Récupération collection
-  // getCollection(userName);
+  res.status(200).send("Username OK");
   return userName;
 });
 
-//Récupération infos complémentaires
-// for (let i = 0; i < items.length; i++) {
-//   db.getRelease(items[i].id, function(err, data){
-// 	console.log("DATA", data);
-// })};
+
+//Logout
+app.post("/api/logout", (req, res) => {
+  userName =""
+  collection = []
+  items = []
+  console.log("Logout", userName);
+  res.status(200).send("Logout OK");
+});
+
+// //Route permettant de recup toute la collection
+// app.get("/api/init", (req, res) => {
+//   console.log("INIT COLLECTION REQUEST");
+//   getCollection(userName);
+//   console.log("END COLLECTION REQUEST");
+//   res.send("Init OK");
+// });
 
 //Route permettant de récupérer l'ensemble des items de la collection
-app.get("/api/collection", collection, async (req, res) => {
-  getItems();
+app.get("/api/collection", async (req, res) => {
+  console.log("GET RELEASES ACTION");
+  let userCol = await getCollection(userName);
+
+  for (let i = 0; i < userCol.length; i++) {
+    items.push(userCol[i].basic_information);
+  }
+  console.log("RESULT RELEASES ACTION", items.length);
   res.json(items);
-  console.log("COUCOU COLLEC", items.length);
 });
 
 // //Route permettant de récupérer les années de sortie triées

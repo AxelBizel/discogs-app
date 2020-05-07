@@ -29,7 +29,7 @@ const Dashboard = ({
     dispatch(getYearsAdded());
     dispatch(getGenres());
     dispatch(getStyles());
-    dispatch(getReleases());
+    // dispatch(getReleases());
   }, [dispatch]);
 
   return (
