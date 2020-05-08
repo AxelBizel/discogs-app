@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import CollectionDisplayCard from "./CollectionDisplayCard";
 import CollectionLoader from "./CollectionLoader";
-
-// import { getCardsPerPage } from "../actions";
 import { connect } from "react-redux";
 import Loader from "./Loader";
 import elementInViewport from "../helpers";
@@ -11,7 +9,7 @@ function CollectionDisplay(props) {
   const { collection } = props.collection;
   const { filterBy } = props.filterBy;
   const { sortBy } = props.sortBy;
-  const [currentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [cardsPerPage, setCardsPerPage] = useState(1);
   const nextPage = useRef(null);
 
@@ -22,13 +20,14 @@ function CollectionDisplay(props) {
   //   }
   // }, [cardsPerPage, getCardsPerPage, collection]);
 
-
-  if (collection && cardsPerPage < collection.length + 199) {
+console.log("COL DISPLAY", collection)
+  if (collection && cardsPerPage < collection.length + 49) {
     setTimeout(() => {
       setCardsPerPage(cardsPerPage+50);
       console.log("CPP", cardsPerPage)
     }, 100);
   }
+
 
 
 
@@ -124,7 +123,7 @@ function CollectionDisplay(props) {
             />
           ))
       )}
-      <span ref={nextPage}></span>
+      {/* <span ref={nextPage}></span> */}
     </>
   );
 }

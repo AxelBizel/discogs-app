@@ -113,7 +113,7 @@ function getCollection(userName) {
       });
       setTimeout(() => {
         resolve(collection);
-      }, 10000);
+      }, 8000);
     } catch (err) {
       console.log(err);
     }
@@ -184,96 +184,98 @@ app.post("/api/login", async (req, res) => {
   return userName;
 });
 
-
 //Logout
 app.post("/api/logout", (req, res) => {
-  userName =""
-  collection = []
-  items = []
+  collection = [];
+  items = [];
+  userName = "";
+  yearsRelease = [];
+  parsedYears = [];
+  yearsAdded = [];
+  genres = [];
+  parsedGenres = [];
+  styles = [];
+  firstYear = "";
   console.log("Logout", userName);
   res.status(200).send("Logout OK");
 });
 
-// //Route permettant de recup toute la collection
-// app.get("/api/init", (req, res) => {
-//   console.log("INIT COLLECTION REQUEST");
-//   getCollection(userName);
-//   console.log("END COLLECTION REQUEST");
-//   res.send("Init OK");
-// });
-
 //Route permettant de récupérer l'ensemble des items de la collection
 app.get("/api/collection", async (req, res) => {
   console.log("GET RELEASES ACTION");
-  let userCol = await getCollection(userName);
-
-  for (let i = 0; i < userCol.length; i++) {
-    items.push(userCol[i].basic_information);
+  if (collection.length === 0) {
+    collection = await getCollection(userName);
+  }
+  if (items.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      items.push(collection[i].basic_information);
+    }
   }
   console.log("RESULT RELEASES ACTION", items.length);
   res.json(items);
 });
 
 // //Route permettant de récupérer les années de sortie triées
-// app.get("/api/years", collection, (req, res) => {
-//   if (yearsRelease.length === 0) {
-//     for (let i = 0; i < collection.length; i++) {
-//       yearsRelease.push(collection[i].basic_information.year);
-//     }
-//   }
-//   if (parsedYears.length === 0) {
-//     yearsRelease.forEach((i) => {
-//       if (i in parsedYears) parsedYears[i] += 1;
-//       else parsedYears[i] = 1;
-//     });
-//   }
-//   res.json(parsedYears);
-// });
+app.get("/api/years", collection, (req, res) => {
+  console.log("GET YEARS");
+  if (yearsRelease.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      yearsRelease.push(collection[i].basic_information.year);
+    }
+  }
+  if (parsedYears.length === 0) {
+    yearsRelease.forEach((i) => {
+      if (i in parsedYears) parsedYears[i] += 1;
+      else parsedYears[i] = 1;
+    });
+  }
+  res.json(parsedYears);
+});
 
 // //Route permettant de récupérer la 1e année de sortie
-// app.get("/api/firstYear", collection, (req, res) => {
-//   if (yearsRelease.length === 0) {
-//     for (let i = 0; i < collection.length; i++) {
-//       yearsRelease.push(collection[i].basic_information.year);
-//     }
-//   }
-//   firstYear = Math.min(...yearsRelease.filter((i) => i > 0));
-//   res.send(firstYear);
-// });
+app.get("/api/firstYear", collection, (req, res) => {
+  if (yearsRelease.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      yearsRelease.push(collection[i].basic_information.year);
+    }
+  }
+  firstYear = Math.min(...yearsRelease.filter((i) => i > 0));
+  res.send(firstYear);
+});
 
 // //Route permettant de récupérer les dates d'ajout
-// app.get("/api/yearsAdded", collection, (req, res) => {
-//   if (yearsAdded.length === 0) {
-//     for (let i = 0; i < collection.length; i++) {
-//       yearsAdded.push(collection[i].date_added);
-//     }
-//   }
-//   res.json(yearsAdded);
-// });
+app.get("/api/yearsAdded", collection, (req, res) => {
+  if (yearsAdded.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      yearsAdded.push(collection[i].date_added);
+    }
+  }
+  res.json(yearsAdded);
+});
 
 // //Route permettant de récupérer les styles
-// app.get("/api/styles", collection, (req, res) => {
-//   if (styles.length === 0) {
-//     for (let i = 0; i < collection.length; i++) {
-//       styles.push(collection[i].basic_information.styles);
-//     }
-//   }
-//   res.json(styles);
-// });
+app.get("/api/styles", collection, (req, res) => {
+  if (styles.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      styles.push(collection[i].basic_information.styles);
+    }
+  }
+  res.json(styles);
+});
 
 // //Route permettant de récupérer les genres
-// app.get("/api/genres", parsedGenres, (req, res) => {
-//   if (genres.length === 0) {
-//     for (let i = 0; i < collection.length; i++) {
-//       genres.push(collection[i].basic_information.genres);
-//     }
-//   }
-//   genres.forEach((i) => {
-//     if (i in parsedGenres) parsedGenres[i] += 1;
-//     else parsedGenres[i] = 1;
-//   });
-//   res.json(genres);
-// });
+app.get("/api/genres", parsedGenres, (req, res) => {
+  if (genres.length === 0) {
+    for (let i = 0; i < collection.length; i++) {
+      genres.push(collection[i].basic_information.genres);
+    }
+  }
+  genres.forEach((i) => {
+    if (i in parsedGenres) parsedGenres[i] += 1;
+    else parsedGenres[i] = 1;
+  });
+  res.json(genres);
+});
 
 //LISTEN
 app.listen(port, (err) => {

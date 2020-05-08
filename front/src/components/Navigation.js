@@ -35,7 +35,7 @@ const Navigation = () => {
         <Col>
           <NavItem>
             <NavLink href="/" onClick={() => setLoggedIn(false)}>
-              Login
+              Logout
             </NavLink>
           </NavItem>
         </Col>

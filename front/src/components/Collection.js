@@ -6,10 +6,11 @@ import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { getReleases } from "../actions";
 
-function Collection({ collection, sortBy, filterBy, dispatch, cardsPerPage }) {
-  // useEffect(() => {
-  //   dispatch(getReleases());
-  // }, [dispatch]);
+function Collection({dispatch}) {
+  useEffect(() => {
+    dispatch(getReleases());
+  }, [dispatch]);
+
 
   return (
     <div id="Collection">
@@ -24,7 +25,7 @@ function Collection({ collection, sortBy, filterBy, dispatch, cardsPerPage }) {
         </Row>
 
         <Row>
-          <CollectionDisplay collection={collection} />
+          <CollectionDisplay  />
         </Row>
       </Container>
     </div>

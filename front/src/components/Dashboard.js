@@ -6,7 +6,7 @@ import {
   getYearsAdded,
   getGenres,
   getStyles,
-  getReleases
+  getReleases,
 } from "../actions";
 import Loader from "./Loader";
 import DashboardYearsRelease from "./DashboardYearsRelease";
@@ -16,21 +16,18 @@ import DashboardStyles from "./DashboardStyles";
 import CountUp from "react-countup";
 import Counter from "./Counter";
 
-const Dashboard = ({
-  dispatch,
-  years,
-  yearsAdded,
-  genres,
-  styles,
-  collection
-}) => {
+const Dashboard = (props) => {
+  const { dispatch, years, yearsAdded, genres, styles } = props;
+  const {collection} = props.collection
   useEffect(() => {
     dispatch(getYears());
     dispatch(getYearsAdded());
     dispatch(getGenres());
     dispatch(getStyles());
-    // dispatch(getReleases());
+    dispatch(getReleases());
   }, [dispatch]);
+
+  console.log("DASHBOARD COL", collection);
 
   return (
     <div id="Dashboard">
@@ -41,7 +38,7 @@ const Dashboard = ({
               <h3 className="centered">
                 You got{" "}
                 <span className="countup">
-                  <Counter number={collection === null ? 0 : collection.length} />
+                  <Counter number={collection ? collection.length : 0} />
                 </span>{" "}
                 releases in your collection
               </h3>
@@ -86,9 +83,7 @@ const Dashboard = ({
                 <p>In number of releases</p>
                 <DashboardGenres genres={genres.genres} />
                 <p>
-                  <em>
-                   Genres underneath 3% of collection are not displayed
-                  </em>
+                  <em>Genres underneath 3% of collection are not displayed</em>
                 </p>
               </div>
             )}
@@ -103,9 +98,7 @@ const Dashboard = ({
                 <p>In number of releases</p>
                 <DashboardStyles styles={styles.styles} />
                 <p>
-                  <em>
-                   Styles underneath 1% of collection are not displayed
-                  </em>
+                  <em>Styles underneath 1% of collection are not displayed</em>
                 </p>
               </div>
             )}
@@ -118,11 +111,11 @@ const Dashboard = ({
 
 function mstp(state) {
   return {
+    collection: state.collection,
     years: state.years,
     yearsAdded: state.yearsAdded,
     genres: state.genres,
     styles: state.styles,
-    collection: state.collection.collection
   };
 }
 
