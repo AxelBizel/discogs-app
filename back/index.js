@@ -6,8 +6,8 @@ const Discogs = require("disconnect").Client;
 const bodyParser = require("body-parser");
 const cors = require("cors");
 let ls = require("local-storage");
-const axios = require("axios");
-let db = new Discogs().database();
+// const axios = require("axios");
+// let db = new Discogs().database();
 
 //AccessData
 let accessData = {
@@ -120,63 +120,8 @@ function getCollection(userName) {
   });
 }
 
-// const getCollection = new Promise((resolve, reject) => {
 
-//   console.log("INIT COLLECTION FUNCTION");
-
-//   const col = new Discogs(accessData).user().collection();
-//     if (username != ""){
-//   try {
-//     col.getReleases(userName, 0, { page: 1, per_page: 50 }, async function (
-//       err,
-//       data
-//     ) {
-//       if (err) {
-//         console.log(err);
-//         // res.status(500).send("Error 500");
-//       } else {
-//         let pages = await data.pagination.pages;
-//         console.log("PAGES", pages);
-
-//         for (let i = 1; i <= pages; i++) {
-//           col.getReleases(
-//             userName,
-//             0,
-//             { page: `${i}`, per_page: 50 },
-//             async function (err, data) {
-//               if (err) {
-//                 console.log(err);
-//                 res.status(500).send("Error 500");
-//               } else {
-//                 let dataReleases = await data.releases;
-//                 Array.prototype.push.apply(collection, dataReleases);
-//                 console.log("COL FUNCTION LENGTH", collection.length);
-//               }
-//             }
-//           );
-//         }
-
-//         resolve(collection);
-
-//       }
-//     });
-//   } catch (err) {
-//     console.log(err);
-//   }
-// }})
-
-//Fonction pour récupérer l'ensemble des infos basiques pour les cards de la page collection
-// async function getItems() {
-//   console.log("INIT ITEMS FUNCTION");
-//   const userCol = await getCollection(userName);
-//   for (let i = 0; i < userCol.length; i++) {
-//     items.push(userCol[i].basic_information);
-//   }
-//   console.log("RESULT ITEMS FUNCTION", items.length);
-//   return items;
-// }
-
-//Récupération nom d'utilisateur
+////////////////    LOGIN    /////////////////
 app.post("/api/login", async (req, res) => {
   userName = await req.body.userName;
   console.log("LOGIN", userName);
@@ -184,7 +129,7 @@ app.post("/api/login", async (req, res) => {
   return userName;
 });
 
-//Logout
+////////////////    LOGOUT    /////////////////
 app.post("/api/logout", (req, res) => {
   collection = [];
   items = [];
