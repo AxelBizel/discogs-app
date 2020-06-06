@@ -56,24 +56,20 @@ const DashboardGenres = genres => {
     ]
   };
 
-  // const options = {
-  //   scale: {
-  //     angleLines: {
-  //       display: true
-  //     },
-  //     ticks: {
-  //       display: true
-  //     }
-  //   },
-  //   label:{
-  //     display:false
-  //   }
-  // };
+  const options={
+    legend: {
+      display: false,
+    }, 
+    
+    layout: {
+      padding:10,
+    },
+  };
 
   return (
     <>
       {genres ? (
-        <Radar data={data} width={100} height={100} />
+        <Radar data={data} width={100} height={75} options={options} />
       ) : (
         <FontAwesomeIcon icon={faSpinner} spin />
       )}

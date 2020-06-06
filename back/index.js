@@ -75,6 +75,10 @@ let yearsAdded = [];
 let genres = [];
 let parsedGenres = [];
 let styles = [];
+let artists = [];
+let labels = [];
+let topLabels = [];
+
 let firstYear = "";
 
 // Fonction pour récupérer collection
@@ -120,7 +124,6 @@ function getCollection(userName) {
   });
 }
 
-
 ////////////////    LOGIN    /////////////////
 app.post("/api/login", async (req, res) => {
   userName = await req.body.userName;
@@ -157,6 +160,7 @@ app.get("/api/collection", async (req, res) => {
     }
   }
   console.log("RESULT RELEASES ACTION", items.length);
+
   res.json(items);
 });
 
@@ -207,6 +211,55 @@ app.get("/api/styles", collection, (req, res) => {
   }
   res.json(styles);
 });
+
+
+//////TEST ARTISTES ET LABELS
+
+let colTest = getCollection("iktor").then((c) => {
+  getArtists(c);
+  getLabels(c)
+});
+console.log(colTest);
+let topArtists = [];
+
+// //Fonction permettant de récupérer les artistes
+
+const getArtists = (colTest) => {
+  for (let i = 0; i < colTest.length; i++) {
+    for (let j = 0; j < colTest[i].basic_information.artists.length; j++)
+      artists.push(colTest[i].basic_information.artists[j].name);
+  }
+  artists.forEach((a) => {
+    if (a in topArtists) topArtists[a] += 1;
+    else topArtists[a] = 1;
+  });
+  topArtists.sort(function (a, b) {
+    return a - b;
+  });
+
+  console.log(topArtists);
+};
+
+// //Fonction permettant de récupérer les labels
+const getLabels = (colTest) => {
+  for (let i = 0; i < colTest.length; i++) {
+    for (let j = 0; j < colTest[i].basic_information.labels.length; j++)
+      labels.push(colTest[i].basic_information.labels[j].name);
+  }
+  labels.forEach((a) => {
+    if (a in topLabels) topLabels[a] += 1;
+    else topLabels[a] = 1;
+  });
+  
+
+  console.log(topLabels);
+};
+
+
+// //Route permettant de récupérer les artistes
+// app.get("/api/artists", collection, (req, res) => {
+
+// });
 
 // //Route permettant de récupérer les genres
 app.get("/api/genres", parsedGenres, (req, res) => {

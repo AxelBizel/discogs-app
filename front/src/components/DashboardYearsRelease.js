@@ -43,7 +43,7 @@ const DashboardYearsRelease = years => {
         <Line
           data={data}
           width={100}
-          height={100}
+          height={66}
           legend={{ display: false }}
         />
       ) : (

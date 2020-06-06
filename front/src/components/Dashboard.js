@@ -13,12 +13,11 @@ import DashboardYearsRelease from "./DashboardYearsRelease";
 import DashboardYearsAdded from "./DashboardYearsAdded";
 import DashboardGenres from "./DashboardGenres";
 import DashboardStyles from "./DashboardStyles";
-import CountUp from "react-countup";
 import Counter from "./Counter";
 
 const Dashboard = (props) => {
   const { dispatch, years, yearsAdded, genres, styles } = props;
-  const {collection} = props.collection
+  const { collection } = props.collection;
   useEffect(() => {
     dispatch(getYears());
     dispatch(getYearsAdded());
@@ -31,9 +30,9 @@ const Dashboard = (props) => {
 
   return (
     <div id="Dashboard">
-      <Container>
+      <Container fluid>
         <Row>
-          <Col>
+          <Col xs="12" md="4" data-aos="fade-right" data-aos-duration="1000">
             <div className="counterContainer">
               <h3 className="centered">
                 You got{" "}
@@ -43,16 +42,31 @@ const Dashboard = (props) => {
                 releases in your collection
               </h3>
             </div>
+
+            {genres === null ? (
+              <Loader />
+            ) : (
+              <div
+                className="chartContainer"
+                data-aos="fade-up"
+                data-aos-duration="1000"
+              >
+                <h4 className="titleChart">Repartition by genres</h4>
+                {/* <p>In number of releases</p> */}
+                <DashboardGenres genres={genres.genres} />
+                <p>
+                  <em>Genres underneath 3% of collection are not displayed</em>
+                </p>
+              </div>
+            )}
           </Col>
-        </Row>
-        <Row>
-          <Col xs="12" md="6" data-aos="fade-right" data-aos-duration="1000">
+          <Col xs="12" md="4" data-aos="fade-right" data-aos-duration="1000">
             {years === null ? (
               <Loader />
             ) : (
               <div className="chartContainer">
                 <h4 className="titleChart">Repartition by release year</h4>
-                <p>In number of releases</p>
+                {/* <p>In number of releases</p> */}
                 <DashboardYearsRelease years={years.years} />
               </div>
             )}
@@ -66,36 +80,19 @@ const Dashboard = (props) => {
                 data-aos-duration="1000"
               >
                 <h4 className="titleChart">Repartition by add date</h4>
-                <p>In cumulative number of releases</p>
+                {/* <p>In cumulative number of releases</p> */}
                 <DashboardYearsAdded yearsAdded={yearsAdded.yearsAdded} />
-              </div>
-            )}
-
-            {genres === null ? (
-              <Loader />
-            ) : (
-              <div
-                className="chartContainer"
-                data-aos="fade-up"
-                data-aos-duration="1000"
-              >
-                <h4 className="titleChart">Repartition by genres</h4>
-                <p>In number of releases</p>
-                <DashboardGenres genres={genres.genres} />
-                <p>
-                  <em>Genres underneath 3% of collection are not displayed</em>
-                </p>
               </div>
             )}
           </Col>
 
-          <Col xs="12" md="6" data-aos="fade-left" data-aos-duration="1000">
+          <Col xs="12" md="4" data-aos="fade-left" data-aos-duration="1000">
             {styles === null ? (
               <Loader />
             ) : (
               <div className="chartContainer">
                 <h4 className="titleChart">Repartition by styles</h4>
-                <p>In number of releases</p>
+                {/* <p>In number of releases</p> */}
                 <DashboardStyles styles={styles.styles} />
                 <p>
                   <em>Styles underneath 1% of collection are not displayed</em>

@@ -44,7 +44,7 @@ const DashboardStyles = styles => {
     labels: graphLabelsSliced,
     datasets: [
       {
-        label: 'Nombre de disques dans la collection',
+        label: 'Numbers of release in collection',
         backgroundColor: 'rgba(75,192,192,0.4)',
         borderColor: 'rgba(75,192,192,1)',
         borderWidth: 1,
@@ -55,11 +55,41 @@ const DashboardStyles = styles => {
     ]
   }
 
+  const options={
+    legend: {
+      display: false,
+    },
+    axes: {
+      display: true,
+    },
+  
+    scales: {
+      yAxes: [
+        {
+          display: true,
+        },
+      ],
+      xAxes: [
+        {
+          display: true,
+          ticks: { beginAtZero: true },
+
+        },
+      ],
+    },
+    layout: {
+      padding:10,
+    },
+  };
+  
+
+  
+
   return (
     <>
       {' '}
       {styles ? (
-        <HorizontalBar data={data} width={100} height={375} />
+        <HorizontalBar data={data} width={100} height={150} options={options} />
       ) : (
         <FontAwesomeIcon icon={faSpinner} spin />
       )}
