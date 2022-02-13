@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import { isLoggedIn } from "../actions";
 import Axios from "axios";
 
-
 const Navigation = () => {
   const [loggedIn, setLoggedIn] = useState(true);
   useEffect(() => {
@@ -15,32 +14,29 @@ const Navigation = () => {
   }, [loggedIn]);
 
   return (
-    <div>
-      <Nav tabs>
-        <Col>
-          <NavItem>
-            <NavLink href="/collection">Collection</NavLink>
-          </NavItem>
-        </Col>
-        <Col>
-          <NavItem>
-            <NavLink href="/dashboard">Dashboard</NavLink>
-          </NavItem>
-        </Col>
-        <Col>
-          <NavItem>
-            <NavLink href="/explore">Explore</NavLink>
-          </NavItem>
-        </Col>
-        <Col>
-          <NavItem>
-            <NavLink href="/" onClick={() => setLoggedIn(false)}>
-              Logout
-            </NavLink>
-          </NavItem>
-        </Col>
-      </Nav>
-    </div>
+    <Nav
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        flexWrap: "nowrap",
+      }}
+    >
+      <NavItem>
+        <NavLink href="/collection">Collection</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="/dashboard">Dashboard</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="/explore">Explore</NavLink>
+      </NavItem>
+      <NavItem>
+        <NavLink href="/" onClick={() => setLoggedIn(false)}>
+          Logout
+        </NavLink>
+      </NavItem>
+    </Nav>
   );
 };
 

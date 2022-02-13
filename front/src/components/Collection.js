@@ -6,16 +6,15 @@ import { Container, Row, Col } from "reactstrap";
 import { connect } from "react-redux";
 import { getReleases } from "../actions";
 
-function Collection({dispatch}) {
+function Collection({ dispatch }) {
   useEffect(() => {
     dispatch(getReleases());
   }, [dispatch]);
 
-
   return (
     <div id="Collection">
       <Container>
-        <Row style={{ padding: "5vh 0" }}>
+        <Row style={{ padding: "2vh 0" }}>
           <Col xs="12" md="9">
             <CollectionFilter />
           </Col>
@@ -25,7 +24,7 @@ function Collection({dispatch}) {
         </Row>
 
         <Row>
-          <CollectionDisplay  />
+          <CollectionDisplay />
         </Row>
       </Container>
     </div>

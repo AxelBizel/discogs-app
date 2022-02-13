@@ -106,7 +106,6 @@ function CollectionDisplay(props) {
         //   }
       });
       console.log("cardsPerPage", cardsPerPage);
-      setCardsToDisplay(undefined);
 
       let currentCards = collection
         .sort(collectionSort(sortBy))
