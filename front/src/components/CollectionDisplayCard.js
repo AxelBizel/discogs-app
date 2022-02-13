@@ -33,7 +33,7 @@ function CollectionDisplayCard(props) {
         lg="2"
         key={index}
         data-aos="fade-up"
-        data-aos-duration="500"
+        data-aos-duration="200"
         data-aos-delay={delay}
         style={{ margin: 0, padding: 0 }}
         onMouseEnter={() => setFocused(index)}

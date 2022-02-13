@@ -8,12 +8,7 @@ function Header() {
     <div id="Header">
       <Container
         style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: "1vh 1vw",
-          margin: 0,
+          padding: "1vh 0",
           width: "100%",
         }}
       >

@@ -4,14 +4,13 @@ import CollectionLoader from "./CollectionLoader";
 import { connect } from "react-redux";
 import Loader from "./Loader";
 import elementInViewport from "../helpers";
-import { UncontrolledCarousel } from "reactstrap";
 
 function CollectionDisplay(props) {
   const { collection } = props.collection;
   const { filterBy } = props.filterBy;
   const { sortBy } = props.sortBy;
   const [currentPage, setCurrentPage] = useState(1);
-  const [cardsPerPage, setCardsPerPage] = useState(24);
+  const [cardsPerPage, setCardsPerPage] = useState(48);
   const [cardsToDisplay, setCardsToDisplay] = useState(null);
 
   const nextPage = useRef(null);
@@ -93,23 +92,22 @@ function CollectionDisplay(props) {
       cardsPerPage &&
       sortBy &&
       collection &&
-      indexOfLastCard < collection.length
+      cardsPerPage < collection.length
     ) {
       window.addEventListener("scroll", () => {
         if (elementInViewport(nextPage.current)) {
-          // setCurrentPage(currentPage + 1);
-          setCardsPerPage(cardsPerPage + 24);
+          if (cardsPerPage + 49 < collection.length) {
+            setCardsPerPage(cardsPerPage + 48);
+          } else {
+            setCardsPerPage(collection.length);
+          }
         }
-        //   if (elementInViewport(previousPage.current) && currentPage > 1) {
-        //     setCurrentPage(currentPage - 1);
-        //     console.log("PREV PAGE IN VIEWPORT");
-        //   }
       });
       console.log("cardsPerPage", cardsPerPage);
 
       let currentCards = collection
         .sort(collectionSort(sortBy))
-        .slice(indexOfFirstCard, indexOfLastCard);
+        .slice(0, cardsPerPage);
       setCardsToDisplay(currentCards);
     }
   }, [cardsPerPage, collection, currentPage, sortBy]);
@@ -163,9 +161,14 @@ function CollectionDisplay(props) {
             />
           ))
       )}
-      <span ref={nextPage}></span>
-
-      {/* <button onClick={() => setCurrentPage(currentPage + 1)}>NEXT</button> */}
+      <span style={{ margin: "2vh" }} ref={nextPage}></span>
+      {/* {cardsPerPage && collection && cardsPerPage < collection.length && (
+        <Row>
+          <button onClick={() => setCardsPerPage(cardsPerPage + 48)}>
+            Show More
+          </button>
+        </Row>
+      )} */}
     </>
   );
 }
