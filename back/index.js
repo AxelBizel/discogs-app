@@ -87,34 +87,36 @@ function getCollection(userName) {
   const col = new Discogs(accessData).user().collection();
   return new Promise((resolve) => {
     try {
-      col.getReleases(userName, 0, { page: 1, per_page: 50 }, function (
-        err,
-        data
-      ) {
-        if (err) {
-          console.log(err);
-        } else {
-          let pages = data.pagination.pages;
-          console.log("PAGES", pages);
+      col.getReleases(
+        userName,
+        0,
+        { page: 1, per_page: 50 },
+        function (err, data) {
+          if (err) {
+            console.log(err);
+          } else {
+            let pages = data.pagination.pages;
+            console.log("PAGES", pages);
 
-          for (let i = 1; i <= pages; i++) {
-            col.getReleases(
-              userName,
-              0,
-              { page: `${i}`, per_page: 50 },
-              function (err, data) {
-                if (err) {
-                  console.log(err);
-                } else {
-                  let dataReleases = data.releases;
-                  Array.prototype.push.apply(collection, dataReleases);
-                  console.log("COL FUNCTION LENGTH", collection.length);
+            for (let i = 1; i <= pages; i++) {
+              col.getReleases(
+                userName,
+                0,
+                { page: `${i}`, per_page: 50 },
+                function (err, data) {
+                  if (err) {
+                    console.log(err);
+                  } else {
+                    let dataReleases = data.releases;
+                    Array.prototype.push.apply(collection, dataReleases);
+                    console.log("COL FUNCTION LENGTH", collection.length);
+                  }
                 }
-              }
-            );
+              );
+            }
           }
         }
-      });
+      );
       setTimeout(() => {
         resolve(collection);
       }, 8000);
@@ -212,14 +214,13 @@ app.get("/api/styles", collection, (req, res) => {
   res.json(styles);
 });
 
-
 //////TEST ARTISTES ET LABELS
 
 let colTest = getCollection("iktor").then((c) => {
   getArtists(c);
-  getLabels(c)
+  getLabels(c);
 });
-console.log(colTest);
+console.log("COL TEST", colTest);
 let topArtists = [];
 
 // //Fonction permettant de récupérer les artistes
@@ -250,11 +251,9 @@ const getLabels = (colTest) => {
     if (a in topLabels) topLabels[a] += 1;
     else topLabels[a] = 1;
   });
-  
 
   console.log(topLabels);
 };
-
 
 // //Route permettant de récupérer les artistes
 // app.get("/api/artists", collection, (req, res) => {

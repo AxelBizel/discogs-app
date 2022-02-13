@@ -4,14 +4,21 @@ import CollectionLoader from "./CollectionLoader";
 import { connect } from "react-redux";
 import Loader from "./Loader";
 import elementInViewport from "../helpers";
+import { UncontrolledCarousel } from "reactstrap";
 
 function CollectionDisplay(props) {
   const { collection } = props.collection;
   const { filterBy } = props.filterBy;
   const { sortBy } = props.sortBy;
   const [currentPage, setCurrentPage] = useState(1);
-  const [cardsPerPage, setCardsPerPage] = useState(1);
+  const [cardsPerPage, setCardsPerPage] = useState(24);
+  const [cardsToDisplay, setCardsToDisplay] = useState(null);
+
   const nextPage = useRef(null);
+  const previousPage = useRef(null);
+
+  const indexOfLastCard = currentPage * cardsPerPage;
+  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
 
   // useEffect(() => {
   //   if (collection && cardsPerPage < collection.length + 49) {
@@ -19,18 +26,6 @@ function CollectionDisplay(props) {
   //     console.log(cardsPerPage)
   //   }
   // }, [cardsPerPage, getCardsPerPage, collection]);
-
-console.log("COL DISPLAY", collection)
-  if (collection && cardsPerPage < collection.length + 49) {
-    setTimeout(() => {
-      setCardsPerPage(cardsPerPage+50);
-      console.log("CPP", cardsPerPage)
-    }, 100);
-  }
-
-
-
-
 
   const collectionSort = (property) => {
     switch (property) {
@@ -63,28 +58,62 @@ console.log("COL DISPLAY", collection)
     }
   };
 
-  let currentCards = null;
-  const indexOfLastCard = currentPage * cardsPerPage;
-  const indexOfFirstCard = indexOfLastCard - cardsPerPage;
-  if (collection && sortBy) {
-    currentCards = collection
-    .sort(collectionSort(sortBy))
-    .slice(indexOfFirstCard, indexOfLastCard);
-  }
+  // const indexOfLastCard = currentPage * cardsPerPage;
+  // const indexOfFirstCard = indexOfLastCard - cardsPerPage;
+  // if (collection && sortBy) {
+  //   currentCards = collection
+  //     .sort(collectionSort(sortBy))
+  //     .slice(indexOfFirstCard, indexOfLastCard);
+  // }
 
   // Load more cards when scroll down to bottom
-  // if (nextPage.current &&
+  // if (
+  //   nextPage.current &&
   //   collection &&
   //   cardsPerPage &&
-  //   cardsPerPage < collection.length) {
+  //   cardsPerPage < collection.length
+  // ) {
   //   window.addEventListener("scroll", () => {
-  //     if (
-  //       elementInViewport(nextPage.current)
-  //     ) {
+  //     if (elementInViewport(nextPage.current)) {
   //       setCardsPerPage(cardsPerPage + 50);
+  //       setCurrentPage(currentPage++);
   //     }
   //   });
   // }
+
+  useEffect(() => {
+    if (collection && sortBy) {
+      let currentCards = collection.sort(collectionSort(sortBy)).slice(0, 24);
+      setCardsToDisplay(currentCards);
+    }
+  }, [collection && sortBy]);
+
+  useEffect(() => {
+    if (
+      cardsPerPage &&
+      sortBy &&
+      collection &&
+      indexOfLastCard < collection.length
+    ) {
+      // window.addEventListener("scroll", () => {
+      //   if (elementInViewport(nextPage.current)) {
+      //     setCurrentPage(currentPage + 1);
+      //     console.log("NEXT PAGE IN VIEWPORT");
+      //   }
+      //   if (elementInViewport(previousPage.current) && currentPage > 1) {
+      //     setCurrentPage(currentPage - 1);
+      //     console.log("PREV PAGE IN VIEWPORT");
+      //   }
+      // });
+      // console.log("currentPage", currentPage);
+      setCardsToDisplay(undefined);
+
+      let currentCards = collection
+        .sort(collectionSort(sortBy))
+        .slice(indexOfFirstCard, indexOfLastCard);
+      setCardsToDisplay(currentCards);
+    }
+  }, [cardsPerPage, collection, currentPage, sortBy]);
 
   //
 
@@ -98,12 +127,24 @@ console.log("COL DISPLAY", collection)
 
   return (
     <>
-    {collection && cardsPerPage && cardsPerPage < collection.length ? 
-      <CollectionLoader cardsPerPage={cardsPerPage} number={collection.length} /> : <></>}
-      {collection === null || sortBy === undefined ? (
+      {/* {collection && cardsPerPage && cardsPerPage < collection.length ? (
+        <CollectionLoader
+          cardsPerPage={cardsPerPage}
+          number={collection.length}
+        />
+      ) : (
+        <></>
+      )} */}
+      {/* <span ref={previousPage}></span> */}
+      {currentPage > 1 && (
+        <button onClick={() => setCurrentPage(currentPage - 1)}>
+          PREVIOUS
+        </button>
+      )}
+      {!collection || !sortBy || !cardsToDisplay ? (
         <Loader />
       ) : (
-        currentCards
+        cardsToDisplay
           .sort(collectionSort(sortBy))
           .filter((item) => {
             const regex = new RegExp(filterBy, "i");
@@ -124,6 +165,8 @@ console.log("COL DISPLAY", collection)
           ))
       )}
       {/* <span ref={nextPage}></span> */}
+
+      <button onClick={() => setCurrentPage(currentPage + 1)}>NEXT</button>
     </>
   );
 }
@@ -132,7 +175,7 @@ function mstp(state) {
   return {
     collection: state.collection,
     sortBy: state.sortBy,
-    filterBy: state.filterBy
+    filterBy: state.filterBy,
   };
 }
 
