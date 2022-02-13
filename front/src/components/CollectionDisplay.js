@@ -95,17 +95,17 @@ function CollectionDisplay(props) {
       collection &&
       indexOfLastCard < collection.length
     ) {
-      // window.addEventListener("scroll", () => {
-      //   if (elementInViewport(nextPage.current)) {
-      //     setCurrentPage(currentPage + 1);
-      //     console.log("NEXT PAGE IN VIEWPORT");
-      //   }
-      //   if (elementInViewport(previousPage.current) && currentPage > 1) {
-      //     setCurrentPage(currentPage - 1);
-      //     console.log("PREV PAGE IN VIEWPORT");
-      //   }
-      // });
-      // console.log("currentPage", currentPage);
+      window.addEventListener("scroll", () => {
+        if (elementInViewport(nextPage.current)) {
+          // setCurrentPage(currentPage + 1);
+          setCardsPerPage(cardsPerPage + 24);
+        }
+        //   if (elementInViewport(previousPage.current) && currentPage > 1) {
+        //     setCurrentPage(currentPage - 1);
+        //     console.log("PREV PAGE IN VIEWPORT");
+        //   }
+      });
+      console.log("cardsPerPage", cardsPerPage);
       setCardsToDisplay(undefined);
 
       let currentCards = collection
@@ -164,9 +164,9 @@ function CollectionDisplay(props) {
             />
           ))
       )}
-      {/* <span ref={nextPage}></span> */}
+      <span ref={nextPage}></span>
 
-      <button onClick={() => setCurrentPage(currentPage + 1)}>NEXT</button>
+      {/* <button onClick={() => setCurrentPage(currentPage + 1)}>NEXT</button> */}
     </>
   );
 }
